@@ -1,0 +1,25 @@
+.direita{
+   position:absolute;
+   right:20px;
+}
+
+.topo{
+   position:absolute;
+   top:0px;
+}
+
+.bg-lilas {
+   background-color: #5a5c69;
+   background-image: linear-gradient(180deg,#122ac5 10%,#cb131c 100%);
+   background-size: cover;
+}
+
+
+.bg-lilas-top {
+   background-image: linear-gradient(90deg,#122ac5 80%,#cb131c 100%);
+}
+
+
+.bg-botom-azul {
+   background-image: linear-gradient(#122ac5 91%,#cb131c);
+}  
