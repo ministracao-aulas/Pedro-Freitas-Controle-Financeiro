@@ -8,7 +8,7 @@ use App\Helpers\StrValidation;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
-class UsuarioController extends Controller
+class AuthController extends Controller
 {
     public const IF_AUTH_REDIRECT_TO = 'admin.index';
 

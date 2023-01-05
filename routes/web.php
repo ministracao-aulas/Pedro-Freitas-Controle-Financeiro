@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\TesteController;
-use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CadastroPagController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\pagfixoController;
@@ -24,9 +24,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', HomeController::class)->name('home');
 
 Route::prefix('auth')->group(function () {
-    Route::get('/login', [UsuarioController::class, 'login'])->name('login');
-    Route::post('/login', [UsuarioController::class, 'auth']);
-    Route::get('/logout', [UsuarioController::class, 'logout'])->name('logout');
+    Route::get('/login', [AuthController::class, 'login'])->name('login');
+    Route::post('/login', [AuthController::class, 'auth']);
+    Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 });
 
 Route::get('cadastropag', [CadastroPagController::class, 'index'])->name('cadastropag.index');
