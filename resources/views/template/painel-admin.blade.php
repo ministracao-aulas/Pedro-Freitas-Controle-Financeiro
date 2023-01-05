@@ -1,12 +1,6 @@
-<?php
-
-use App\Models\usuario;
-
-@session_start();
-$id_usuario = @$_SESSION['id_usuario'];
-$usuario = usuario::find($id_usuario);
-?>
-
+@php
+    $user = \Auth::user(); // TODO: fazer vir da controller
+@endphp
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -27,14 +21,14 @@ $usuario = usuario::find($id_usuario);
         <!-- Custom styles for this template-->
         <link href="{{URL::asset('css/sb-admin-2.min.css')}}" rel="stylesheet">
         <link href="{{URL::asset('css/style.css')}}" rel="stylesheet">
-        
+
         <link href="{{URL::asset('vendor/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
 
 
         <!-- Bootstrap core JavaScript-->
         <script src="{{URL::asset('vendor/jquery/jquery.min.js')}}"></script>
         <script src="{{URL::asset('vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-        
+
          <link rel="shortcut icon" href="{{URL::asset('/favicon.ico')}}" type="image/x-icon">
     <link rel="icon" href="{{URL::asset('/favicon.ico')}}" type="image/x-icon">
 
@@ -97,7 +91,7 @@ $usuario = usuario::find($id_usuario);
                             <a class="collapse-item" href="">Extras</a>
 
                         </div>
-                    </div>                 
+                    </div>
 
 
                 </li>
@@ -109,7 +103,7 @@ $usuario = usuario::find($id_usuario);
                         <span>Meses</span>
                     </a>
                     <div id="collapseTree" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                        <div class="bg-white py-2 collapse-inner rounded">                            
+                        <div class="bg-white py-2 collapse-inner rounded">
                             <a class="collapse-item" href="">Janeiro</a>
                             <a class="collapse-item" href="">Fevereiro</a>
                             <a class="collapse-item" href="">Março</a>
@@ -127,7 +121,7 @@ $usuario = usuario::find($id_usuario);
                     </div>
                 </li>
 
-                
+
 
                 <!-- Divider -->
                 <hr class="sidebar-divider">
@@ -183,7 +177,7 @@ $usuario = usuario::find($id_usuario);
                             <!-- Nav Item - User Information -->
                             <li class="nav-item dropdown no-arrow">
                                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span class="mr-2 d-none d-lg-inline text-gray-200 small"><?php  echo $_SESSION['nome_usuario']?></span>
+                                    <span class="mr-2 d-none d-lg-inline text-gray-200 small">{{ $user->name }}</span>
                                     <img class="img-profile rounded-circle" src="{{URL::asset('img/perfil.png')}}">
 
                                 </a>
@@ -195,7 +189,7 @@ $usuario = usuario::find($id_usuario);
                                     </a>
 
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="{{route('usuarios.logout')}}">
+                                    <a class="dropdown-item" href="{{route('logout')}}">
                                         <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-danger"></i>
                                         Sair
                                     </a>
@@ -210,8 +204,8 @@ $usuario = usuario::find($id_usuario);
                     <!-- Begin Page Content -->
                     <div class="container-fluid">
 
-                        @yield('content')                        
-                        
+                        @yield('content')
+
 
                     </div>
                     <!-- /.container-fluid -->
@@ -248,35 +242,38 @@ $usuario = usuario::find($id_usuario);
 
 
 
-                    <form id="form-perfil" method="POST" action="{{route('admin.editar',$id_usuario)}}">
+                    <form id="form-perfil" method="POST" action="{{route('admin.editar', $user->id)}}">
                     @csrf
-                    @method('put');    
+                    @method('put');
                         <div class="modal-body">
 
                             <div class="row">
                                 <div class="col-md-6 col-sm-12">
                                     <div class="form-group">
-                                        <label >Nome</label>
-                                        <input value="{{$usuario->nome}}" type="text" class="form-control" id="nome" name="nome" placeholder="Nome">
+                                        <label>Nome</label>
+                                        <input value="{{$user->name}}" type="text" class="form-control" id="name" name="name" placeholder="Nome">
                                     </div>
 
                                     <div class="form-group">
-                                        <label >CPF</label>
-                                        <input value="{{$usuario->cpf}}" type="text" class="form-control" id="cpf" name="cpf" placeholder="CPF">
+                                        <label>CPF</label>
+                                        <input value="{{$user->cpf}}" type="text" class="form-control" id="cpf" name="cpf" placeholder="CPF">
                                     </div>
 
                                     <div class="form-group">
-                                        <label >E-mail</label>
-                                        <input value="{{$usuario->usuario}}" type="text" class="form-control" id="usuario" name="usuario" placeholder="usuario">
+                                        <label>E-mail</label>
+                                        <input value="{{$user->email}}" type="email" class="form-control" id="email" name="email" placeholder="email">
                                     </div>
 
                                     <div class="form-group">
-                                        <label >Senha</label>
-                                        <input value="{{$usuario->senha}}" type="password" class="form-control" id="text" name="senha" placeholder="Senha">
+                                        <label>
+                                            Senha
+                                            <em class="text-muted">Deixe em branco se não quiser alterar a senha</em>
+                                        </label>
+                                        <input value="" type="password" class="form-control" id="text" name="password" placeholder="Senha">
                                     </div>
                                 </div>
-                                
-                            </div> 
+
+                            </div>
 
 
                         </div>
@@ -320,5 +317,3 @@ $usuario = usuario::find($id_usuario);
     </body>
 
 </html>
-
-

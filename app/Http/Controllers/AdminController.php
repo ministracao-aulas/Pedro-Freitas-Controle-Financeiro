@@ -6,18 +6,19 @@ use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
-    public function index(){
-        return view ('painel-admin.index');
+    public function index()
+    {
+        return view('painel-admin.index');
     }
 
-    public function editar(Request $request, usuario $usuarios){
-        
-        $usuarios->nome = $request->nome;
-        $usuarios->cpf = $request->cpf;
-        $usuarios->Usuarios = $request->Usuario;
-        $usuarios->senha = $request->senha;
-        $usuarios->save();
-        return redirect()->route('admin.index');
+    public function editar(Request $request, User $user)
+    {
 
+        $user->nome = $request->nome;
+        $user->cpf = $request->cpf;
+        $user->Usuarios = $request->Usuario;
+        $user->senha = $request->senha;
+        $user->save();
+        return redirect()->route('admin.index');
     }
 }

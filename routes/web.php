@@ -23,7 +23,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeController::class)->name('home');
 
-Route::post('/painel', [UsuarioController::class, 'login'])->name('usuarios.login');
+Route::prefix('auth')->group(function () {
+    Route::get('/login', [UsuarioController::class, 'login'])->name('login');
+    Route::post('/login', [UsuarioController::class, 'auth']);
+    Route::get('/logout', [UsuarioController::class, 'logout'])->name('logout');
+});
 
 Route::get('cadastropag', [CadastroPagController::class, 'index'])->name('cadastropag.index');
 Route::get('pagfixo', [pagfixoController::class, 'index'])->name('pagfixo.index');
@@ -31,6 +35,5 @@ Route::post('pagfixo.insert', [pagfixoController::class, 'insert'])->name('pagfi
 Route::get('pagfixo/inserir', [pagfixoController::class, 'create'])->name('pagfixo.inserir');
 
 Route::get('/home-admin', [AdminController::class, 'index'])->name('admin.index');
-Route::get('/', [UsuarioController::class, 'logout'])->name('usuarios.logout');
 Route::put('admin/{Usuario}', [AdminController::class, 'editar'])->name('admin.editar');
 Route::get('calendario', [CalendarioController::class, 'index'])->name('calendario.index');
