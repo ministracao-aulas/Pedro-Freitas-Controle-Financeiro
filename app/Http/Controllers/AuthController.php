@@ -75,7 +75,6 @@ class AuthController extends Controller
             ]);
         }
 
-
         // $user = User::where('usuario', '=', $user)->orwhere('cpf', '=', $user)->where('senha', '=', $senha)->first();
 
         // if (@$user->id != null) {
@@ -98,10 +97,10 @@ class AuthController extends Controller
         // }
     }
 
-
     public function logout()
     {
         Auth::logout();
+
         return redirect()->route('login');
     }
 }

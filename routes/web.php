@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\TesteController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CadastroPagController;
 use App\Http\Controllers\HomeController;
@@ -8,7 +7,6 @@ use App\Http\Controllers\pagfixoController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CalendarioController;
 use Illuminate\Support\Facades\Route;
-
 
 /*
 |--------------------------------------------------------------------------

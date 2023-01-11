@@ -13,12 +13,12 @@ class AdminController extends Controller
 
     public function editar(Request $request, User $user)
     {
-
         $user->nome = $request->nome;
         $user->cpf = $request->cpf;
         $user->Usuarios = $request->Usuario;
         $user->senha = $request->senha;
         $user->save();
+
         return redirect()->route('admin.index');
     }
 }
