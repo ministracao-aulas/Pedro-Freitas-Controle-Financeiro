@@ -7,7 +7,7 @@
         "simplified_null_return": false,
         "braces": {
             "allow_single_line_closure": false,
-            "allow_single_line_anonymous_class_with_empty_body": false,
+            "allow_single_line_anonymous_class_with_empty_body": true,
             "position_after_functions_and_oop_constructs": "next"
         },
         "class_definition": {
@@ -43,19 +43,22 @@
         "return_assignment": true,
         "array_indentation": true,
         "blank_line_after_opening_tag": true,
+        "blank_line_after_namespace": true,
+        "blank_line_before_statement": true,
         "assign_null_coalescing_to_coalesce_equal": true,
         "full_opening_tag": true,
         "explicit_string_variable": true,
         "explicit_indirect_variable": true,
-        "blank_line_after_namespace": true,
         "fully_qualified_strict_types": true,
         "use_arrow_functions": true,
         "array_syntax": {
             "syntax": "short"
         },
+        "declare_parentheses": true,
         "whitespace_after_comma_in_array": {
             "ensure_single_space": true
         },
+        "trim_array_spaces": true,
         "method_argument_space": {
             "on_multiline": "ensure_fully_multiline",
             "after_heredoc": true,
