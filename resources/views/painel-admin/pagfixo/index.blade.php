@@ -6,7 +6,7 @@
 <h6 class="mb-2"><i> LISTA DE PAGAMENTOS </i></h6><hr>
 
 
-<a href="http://127.0.0.1:8000/pagfixo/inserir" type="button" class="mt-4 mb-4 btn btn-secondary " style="
+<a href="{{ route('contas.create') }}" type="button" class="mt-4 mb-4 btn btn-secondary " style="
     background-image: linear-gradient(#122ac5 95%,#ff000c);
 ">Inserir Pagamentos</a>
 
@@ -36,12 +36,12 @@
             <td> R$ {{number_format ($item->valor, 2, ',', '.')}}</td>
             <td>{{$item->situacao}}</td>
             <td>
- 
+
             <a href=" "><i class="fas fa-edit text-info mr-1"></i></a>
             <a href=" "><i class="fas fa-trash text-danger mr-1"></i></a>
             </td>
         </tr>
-        @endforeach 
+        @endforeach
       </tbody>
   </table>
 </div>
@@ -49,7 +49,7 @@
 </div>
 
 
-    
+
 
 
 </div>
@@ -75,7 +75,7 @@
       </div>
       <div class="modal-body">
         Deseja Realmente Excluir este Registro?
-        
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
@@ -89,12 +89,10 @@
   </div>
 </div>
 
-<?php 
+<?php
 if(@$id != ""){
   echo "<script>$('#exampleModal').modal('show');</script>";
 }
 ?>
 
 @endsection
-
-

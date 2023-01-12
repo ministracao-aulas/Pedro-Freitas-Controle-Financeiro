@@ -5,25 +5,44 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Helpers\StrValidation;
+use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
-    public const IF_AUTH_REDIRECT_TO = 'admin.index';
+    /**
+     * Undocumented variable
+     *
+     * @var $urlGenerator Illuminate\Routing\UrlGenerator
+     */
+    protected $urlGenerator;
+
+    public const IF_AUTH_REDIRECT_TO = 'admin.dashboard';
 
     public function __construct()
     {
+        $this->urlGenerator = app(UrlGenerator::class);
+
         $this->middleware('auth')->except(['login', 'auth']);
     }
 
     public function login(Request $request)
     {
-        if (Auth::user()) {
-            return redirect()->route(static::IF_AUTH_REDIRECT_TO);
+        if (Auth::guest()) {
+            return view('auth.login');
         }
 
-        return view('auth.login');
+        // Current and previous are the same
+        $currentAreThePrevious = $this->urlGenerator->previous() == $this->urlGenerator->current();
+
+        $goTo = $currentAreThePrevious ? route(static::IF_AUTH_REDIRECT_TO) : $this->urlGenerator->previous();
+
+        if ($this->urlGenerator->current() != $goTo) {
+            return redirect($goTo);
+        }
+
+        return redirect()->route(static::IF_AUTH_REDIRECT_TO);
     }
 
     public function auth(Request $request)
@@ -95,6 +114,8 @@ class AuthController extends Controller
         //     echo "<script language='javascript'> window.alert('Dados Incorretos!') </script>";
         //     return view('index');
         // }
+
+        return redirect()->route('admin.dashboard');
     }
 
     public function logout()

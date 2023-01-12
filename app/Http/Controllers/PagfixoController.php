@@ -2,26 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\pagfixo;
+use App\Models\Bill;
 use Illuminate\Http\Request;
 
-class pagfixoController extends Controller
+class PagfixoController extends Controller
 {
     public function index()
     {
-        $tabela = pagfixo::orderby('id', 'desc')->paginate();
+        $tabela = Bill::orderby('id', 'desc')->paginate();
 
-        return view('painel-admin.pagfixo.index', ['itens'=>$tabela]);
+        return view('painel-admin.Bill.index', ['itens' => $tabela]);
     }
 
     public function create()
     {
-        return view('painel-admin.pagfixo.create');
+        return view('painel-admin.Bill.create');
     }
 
     public function insert(Request $request)
     {
-        $tabela = new pagfixo();
+        $tabela = new Bill();
         $tabela->nome = $request->nome;
         $tabela->tipo = $request->tipo;
         $tabela->vencimento = $request->vencimento;
@@ -29,6 +29,6 @@ class pagfixoController extends Controller
         $tabela->situacao = $request->situacao;
         $tabela->save();
 
-        return redirect()->route('pagfixo.index');
+        return redirect()->route('Bill.index');
     }
 }

@@ -43,7 +43,7 @@
             <ul class="navbar-nav bg-lilas sidebar sidebar-dark accordion" id="accordionSidebar">
 
                 <!-- Sidebar - Brand -->
-                <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{route('admin.index')}}">
+                <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('admin.dashboard') }}">
 
                     <div class="sidebar-brand-text mx-3">Administrador</div>
                 </a>
@@ -71,7 +71,7 @@
                     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">TIPO DE ACESSO:</h6>
-                            <a class="collapse-item" href="{{route('cadastropag.index')}}">Cadastro</a>
+                            <a class="collapse-item" href="#cadastropag.index">Cadastro</a>
                             <a class="collapse-item" href="">Baixa</a>
                         </div>
                     </div>
@@ -86,7 +86,7 @@
                     <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">Pagamentos:</h6>
-                            <a class="collapse-item" href="{{route('pagfixo.index')}}">Pagamento Fixo</a>
+                            <a class="collapse-item" href="{{ route('admin.contas.index') }}">Pagamento Fixo</a>
                             <a class="collapse-item" href="">Pagamento Variavel</a>
                             <a class="collapse-item" href="">Extras</a>
 
@@ -135,7 +135,7 @@
 
                 <!-- Nav Item - Charts -->
                 <li class="nav-item">
-                    <a class="nav-link" href="{{route('calendario.index')}}">
+                    <a class="nav-link" href="#calendario.index">
                         <i class="fas fa-fw fa-chart-area"></i>
                         <span>Calendario de Pagamentos</span></a>
                 </li>
@@ -242,7 +242,7 @@
 
 
 
-                    <form id="form-perfil" method="POST" action="{{route('admin.editar', $user->id)}}">
+                    <form id="form-perfil" method="POST" action="{{route('admin.usuarios.edit', $user->id)}}">
                     @csrf
                     @method('put');
                         <div class="modal-body">
