@@ -195,8 +195,7 @@
                         id="note"
                         name="note"
                         placeholder="@lang('Your note was here')"
-                    >{{ old('note') }}
-                    </textarea>
+                    >{{ old('note') }}</textarea>
                 </div>
             </div>
         </div>
