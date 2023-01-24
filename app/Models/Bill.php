@@ -72,6 +72,8 @@ class Bill extends Model
         'overdue_formated',
         'status_name',
         'status_color',
+        'type_name',
+        'type_color',
     ];
 
     public function getOverdueAttribute()
@@ -135,5 +137,29 @@ class Bill extends Model
         // }
 
         return $colors[$this->status] ?? 'secondary';
+    }
+
+    public function getTypeNameAttribute()
+    {
+        $typees = [
+            static::TYPE_FIXED => 'enums.type.fixed',
+            static::TYPE_VARIABLE => 'enums.type.variable',
+            static::TYPE_SEPARATE => 'enums.type.separate',
+            static::TYPE_OTHER => 'enums.type.other',
+        ];
+
+        return __($typees[$this->type] ?? \null);
+    }
+
+    public function getTypeColorAttribute()
+    {
+        $colors = [
+            static::TYPE_FIXED => 'primary',
+            static::TYPE_VARIABLE => 'info',
+            static::TYPE_SEPARATE => 'secondary',
+            static::TYPE_OTHER => 'secondary',
+        ];
+
+        return $colors[$this->type] ?? 'secondary';
     }
 }

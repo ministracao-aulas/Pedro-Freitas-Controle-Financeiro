@@ -39,7 +39,7 @@ class BillController extends Controller
             'title' => 'required|string|min:3',
             'type' => 'required|integer|in:' . implode(',', $billTypes),
             'overdue_date' => 'nullable|date',
-            'value' => 'required',
+            'value' => 'nullable|regex:/^\d+(\.\d{1,2})?$/',
             'status' => 'required|integer|in:' . implode(',', $billStatus),
             'note' => 'nullable|string|min:3',
             'creditor_id' => 'nullable|integer|exists:App\Models\Creditor,id',

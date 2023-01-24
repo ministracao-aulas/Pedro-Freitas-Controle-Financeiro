@@ -7,4 +7,10 @@ return [
         'postponed' => 'Postponed',
         'other' => 'Other',
     ],
+    'type' => [
+        'fixed' => 'Fixed',
+        'variable' => 'Variable',
+        'separate' => 'Separate',
+        'other' => 'Other',
+    ],
 ];

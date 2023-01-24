@@ -13,7 +13,7 @@ Route::name('admin.')->group(function () {
     /* Modelo de Route group *
     Route::prefix('usuarios')->name('usuarios.')->group(function () {
         Route::get('/', [UserController::class, 'index'])->name('index');
-        Route::get('/{item}', [UserController::class, 'show'])->name('show');
+        Route::get('/{item}/show', [UserController::class, 'show'])->name('show');
         Route::get('/{item}/edit', [UserController::class, 'edit'])->name('edit');
         Route::put('/{item}/update', [UserController::class, 'update'])->name('update');
         Route::get('/create', [UserController::class, 'create'])->name('create');
@@ -23,7 +23,7 @@ Route::name('admin.')->group(function () {
 
     Route::prefix('usuarios')->name('usuarios.')->group(function () {
         Route::get('/', [UserController::class, 'index'])->name('index');
-        Route::get('/{item}', [UserController::class, 'show'])->name('show');
+        Route::get('/{item}/show', [UserController::class, 'show'])->name('show');
         Route::get('/{item}/edit', [UserController::class, 'edit'])->name('edit');
         Route::put('/{item}/update', [UserController::class, 'update'])->name('update');
         Route::get('/create', [UserController::class, 'create'])->name('create');
@@ -32,7 +32,7 @@ Route::name('admin.')->group(function () {
 
     Route::prefix('contas')->name('contas.')->group(function () {
         Route::get('/', [BillController::class, 'index'])->name('index');
-        Route::get('/{item}', [BillController::class, 'show'])->name('show');
+        Route::get('/{item}/show', [BillController::class, 'show'])->name('show');
         Route::get('/{item}/edit', [BillController::class, 'edit'])->name('edit');
         Route::put('/{item}/update', [BillController::class, 'update'])->name('update');
         Route::get('/create', [BillController::class, 'create'])->name('create');

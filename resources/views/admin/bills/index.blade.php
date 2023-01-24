@@ -1,5 +1,5 @@
 @extends('template.painel-admin')
-@section('title', 'Pagamentos')
+@section('title', 'Contas')
 @section('content')
 
     <h6 class="mb-2"><i> LISTA DE PAGAMENTOS </i></h6>
@@ -9,7 +9,7 @@
         href="{{ route('admin.contas.create') }}"
         class="mt-4 mb-4 btn btn-md btn-primary bg-custom-gradient-01"
     >
-        Inserir Pagamentos
+        Cadastrar conta
     </a>
 
     <!-- DataTales Example -->
@@ -35,7 +35,12 @@
                             <tr>
                                 <td>{{ $bill->id }}</td>
                                 <td>{{ $bill->title }}</td>
-                                <td>{{ $bill->type }}</td>
+                                <td>
+                                    <span
+                                        class="badge badge-pill badge-{{ $bill->type_color }}">
+                                        {{ $bill->type_name }}
+                                    </span>
+                                </td>
                                 <td>
                                     @if ($bill->overdue_date)
                                         {{ $bill->overdue_date->format('d/m/Y') }}
@@ -50,8 +55,28 @@
                                             title="{{ $bill->overdue_formated }}">
                                         </i>
                                     @endif
+
+                                    @if (
+                                        $bill->overdue_date &&
+                                        !$bill->overdue &&
+                                        $bill->overdue_date->diffInDays() <= 5
+                                    )
+                                        <i
+                                            class="fa fa-info-circle fa-lg text-warning cursor-pointer"
+                                            aria-hidden="true"
+                                            data-toggle="tooltip"
+                                            data-placement="top"
+                                            title="{{
+                                            trans_choice('Due in :count days', $bill->overdue_date->diffInDays())
+                                            }}">
+                                        </i>
+                                    @endif
                                 </td>
-                                <td> R$ {{ number_format($bill->value, 2, ',', '.') }}</td>
+                                <td>
+                                    @if ($bill->value)
+                                        R$ {{ number_format($bill->value, 2, ',', '.') }}
+                                    @endif
+                                </td>
                                 <td>
                                     <span
                                         class="badge badge-pill badge-{{ $bill->status_color }}">
@@ -69,9 +94,12 @@
                                     @endif
                                 </td>
                                 <td>
-
-                                    <a href=" "><i class="fas fa-edit text-info mr-1"></i></a>
-                                    <a href=" "><i class="fas fa-trash text-danger mr-1"></i></a>
+                                    <a href="#edit">
+                                        <i class="fas fa-edit text-info mr-1"></i>
+                                    </a>
+                                    <a href="#trash">
+                                        <i class="fas fa-trash text-danger mr-1"></i>
+                                    </a>
                                 </td>
                             </tr>
                         @endforeach
