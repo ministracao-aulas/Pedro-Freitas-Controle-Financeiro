@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
 use App\Helpers\StrValidation;
 use Illuminate\Routing\UrlGenerator;
@@ -93,27 +92,6 @@ class AuthController extends Controller
                 'Credenciais não encontradas',
             ]);
         }
-
-        // $user = User::where('usuario', '=', $user)->orwhere('cpf', '=', $user)->where('senha', '=', $senha)->first();
-
-        // if (@$user->id != null) {
-        //     @session_start();
-        //     $_SESSION['id_usuario'] = $user->id;
-        //     $_SESSION['nome_usuario'] = $user->nome;
-        //     $_SESSION['nivel_usuario'] = $user->nivel;
-        //     $_SESSION['cpf_usuario'] = $user->cpf;
-
-        //     if ($_SESSION['nivel_usuario'] == 'admin') {
-        //         return view('painel-admin.index');
-        //     }
-
-        //     if ($_SESSION['nivel_usuario'] == 'cadastro') {
-        //         return view('painel-cadastro.index');
-        //     }
-        // } else {
-        //     echo "<script language='javascript'> window.alert('Dados Incorretos!') </script>";
-        //     return view('index');
-        // }
 
         return redirect()->route('admin.dashboard');
     }

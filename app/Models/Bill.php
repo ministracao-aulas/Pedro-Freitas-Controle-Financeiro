@@ -5,7 +5,135 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Models\Bill
+ *
+ * @property int $id
+ * @property string $title
+ * @property int $type
+ * @property \Illuminate\Support\Carbon|null $overdue_date
+ * @property string|null $value
+ * @property int $status
+ * @property string|null $note
+ * @property int|null $creditor_id
+ * @property int|null $created_by
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Database\Factories\BillFactory factory(...$parameters)
+ * @method static \Illuminate\Database\Eloquent\Builder|Bill newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Bill newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Bill query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Bill whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Bill whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Bill whereCreditorId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Bill whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Bill whereNote($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Bill whereOverdueDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Bill whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Bill whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Bill whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Bill whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Bill whereValue($value)
+ * @mixin \Eloquent
+ * @property-read mixed $overdue
+ * @property-read mixed $overdue_formated
+ */
 class Bill extends Model
 {
     use HasFactory;
+
+    public const TYPE_FIXED = 0;
+    public const TYPE_VARIABLE = 1;
+    public const TYPE_SEPARATE = 2;
+    public const TYPE_OTHER = 3;
+
+    public const STATUS_OPENED = 0;
+    public const STATUS_PAID = 1;
+    public const STATUS_POSTPONED = 2;
+    public const STATUS_OTHER = 3;
+
+    protected $fillable = [
+        'title',
+        'type',
+        'overdue_date',
+        'value',
+        'status',
+        'note',
+        'creditor_id',
+        'created_by',
+    ];
+
+    protected $dates = [
+        'overdue_date',
+    ];
+
+    protected $appends = [
+        'overdue',
+        'overdue_formated',
+        'status_name',
+        'status_color',
+    ];
+
+    public function getOverdueAttribute()
+    {
+        if (!$this->overdue_date || $this->status === static::STATUS_PAID) {
+            return null;
+        }
+
+        return now()->unix() > $this->overdue_date->unix();
+    }
+
+    public function getOverdueFormatedAttribute()
+    {
+        if (
+            !$this->overdue_date ||
+            !$this->overdue
+        ) {
+            return null;
+        }
+
+        $toReplace = [
+            'days' => 'dias',
+            'day' => 'dia',
+            'months' => 'meses',
+            'month' => 'mês',
+            'years' => 'anos',
+            'year' => 'ano',
+            'ago' => 'de atraso',
+        ];
+
+        return \str_replace(
+            \array_keys($toReplace),
+            \array_values($toReplace),
+            now()->subDays(5)->diffForHumans()
+        );
+    }
+
+    public function getStatusNameAttribute()
+    {
+        $statuses = [
+            static::STATUS_OPENED => 'enums.status.opened',
+            static::STATUS_PAID => 'enums.status.paid',
+            static::STATUS_POSTPONED => 'enums.status.postponed',
+            static::STATUS_OTHER => 'enums.status.other',
+        ];
+
+        return __($statuses[$this->status] ?? \null);
+    }
+
+    public function getStatusColorAttribute()
+    {
+        $colors = [
+            static::STATUS_OPENED => 'info',
+            static::STATUS_PAID => 'success',
+            static::STATUS_POSTPONED => 'warning',
+            static::STATUS_OTHER => 'secondary',
+        ];
+
+        // if ($this->status != static::STATUS_PAID && $this->overdue) {
+        //     return 'danger';
+        // }
+
+        return $colors[$this->status] ?? 'secondary';
+    }
 }
