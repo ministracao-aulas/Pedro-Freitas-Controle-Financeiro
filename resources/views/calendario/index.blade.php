@@ -1,4 +1,4 @@
-@extends('template.painel-admin')
+@extends('layouts.sb-admin-2.app')
 @section('title', 'Pagamentos')
 @section('content')
 
