@@ -14,13 +14,13 @@ return [
          */
 
         ['type' => 'sidebar-divider'],
+
+        /* *
         [
             'type' => 'sidebar-heading',
             'label' => 'Sidebar Heading',
             'icon' => 'fas fa-fw fa-folder',
         ],
-
-        /* *
         [
             'type',  // string
             'route', // ?string. Se vier vazio/null usará a regra de 'url'
@@ -30,15 +30,15 @@ return [
             'label', // ?string
             'can',   // ?array, // Permissões
 
+            'sub_items' => [], // array, Pode ou não ter itens
+
             sub_items.* // ? MenuItem[array]
             sub_items.*.type // ?string menu-item|ollapse-divider|collapse-header
-            // 'collapse_header', // TODO <h6 class="collapse-header">Login Screens:</h6>
-            // 'collapse_divider', // TODO <div class="collapse-divider"></div>
 
-            'sub_items' => [], // array, Pode ou não ter itens
         ],
         /* */
 
+        /* *
         [
             'type' => 'menu-item',
             'route' => null,
@@ -105,18 +105,101 @@ return [
                 ],
             ],
         ],
+        /** */
 
+        [
+            'type' => 'sidebar-heading',
+            'label' => 'Financeiro',
+            'icon' => 'fas fa-fw fa-folder',
+        ],
+        [
+            'type' => 'menu-item',
+            'route' => null,
+            // 'route' => 'admin.dashboard',
+            'url' => '#!',
+            'class' => 'my-class',
+            'icon' => 'fas fa-fw fa-folder',
+            'label' => 'Credores',
+            'sub_items' => [
+                [
+                    'type' => 'collapse-header',
+                    'label' => 'Credores',
+                ],
+                [
+                    'type' => 'menu-item',
+                    'route' => null,
+                    'url' => '#!',
+                    'label' => 'Lista',
+                ],
+                [
+                    'type' => 'menu-item',
+                    'route' => null,
+                    'url' => '#!',
+                    'label' => 'Principais',
+                ],
+                [
+                    'type' => 'menu-item',
+                    'route' => null,
+                    'url' => '#!',
+                    'label' => 'Cadastrar',
+                ],
+                [
+                    'type' => 'menu-item',
+                    'route' => null,
+                    'url' => '#!',
+                    'label' => 'Com contas em atraso',
+                ],
+            ],
+        ],
         [
             'type' => 'menu-item',
             'route' => null,
             // 'route' => 'admin.dashboard',
             'url' => '#!',
             'icon' => 'fas fa-fw fa-chart-area',
-            'label' => 'Charts',
-            'class' => 'my-class',
+            'label' => 'Pagamentos',
+            'class' => '',
 
             'can' => [], // Permissões
-            'sub_items' => [], //Pode ou não ter itens
+            'sub_items' => [
+                [
+                    'type' => 'menu-item',
+                    'route' => 'admin.contas.index',
+                    'url' => '#!',
+                    'label' => 'Lista',
+                ],
+                [
+                    'type' => 'menu-item',
+                    'route' => 'admin.contas.index',
+                    'route_params' => [
+                        'filter' => [
+                            'type' => \App\Models\Bill::TYPE_FIXED,
+                        ],
+                    ],
+                    'url' => '#!',
+                    'label' => 'Lista(fixos)',
+                ],
+                [
+                    'type' => 'menu-item',
+                    'route' => null,
+                    'url' => '#!',
+                    'label' => 'Principais',
+                ],
+                [
+                    'type' => 'menu-item',
+                    'route' => null,
+                    'url' => '#!',
+                    'label' => 'Cadastrar',
+                ],
+                [
+                    'type' => 'menu-item',
+                    'route' => null,
+                    'url' => '#!',
+                    'label' => 'Com contas em atraso',
+                ],
+            ], //Pode ou não ter itens
         ],
+
+        ['type' => 'sidebar-divider'],
     ]
 ];

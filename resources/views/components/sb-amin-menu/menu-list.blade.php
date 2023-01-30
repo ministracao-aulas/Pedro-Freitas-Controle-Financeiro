@@ -5,16 +5,8 @@
             <span>Dashboard</span></a>
     </li>
 
-    <!-- Divider -->
-    <hr class="sidebar-divider">
-
-    <!-- Heading -->
-    <div class="sidebar-heading">
-        Financeiro
-    </div>
-
     <!-- Nav Item -->
-    <li class="nav-item">
+    <li class="nav-item d-none">
         <a
             class="nav-link @isActive('admin.contas.index', '', 'collapsed')"
             href="#"
@@ -51,32 +43,6 @@
         </div>
     </li>
 
-    <!-- Nav Item - Pages Collapse Menu -->
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#sidebar_creditors" aria-expanded="true"
-            aria-controls="sidebar_creditors">
-            <i class="fas fa-fw fa-cog"></i>
-            <span>Credores</span>
-        </a>
-        <div id="sidebar_creditors" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Credores:</h6>
-                <a class="collapse-item" href="#!">Lista</a>
-                <a class="collapse-item" href="#!">Principais</a>
-                <a class="collapse-item" href="#!">Cadastrar</a>
-                <a class="collapse-item" href="#!">Com contas em atraso</a>
-            </div>
-        </div>
-    </li>
-
-    <!-- Divider -->
-    <hr class="sidebar-divider">
-
-    <!-- Heading -->
-    <div class="sidebar-heading">
-        Addons
-    </div>
-
     @foreach ($menuItems as $menuItem)
         @if(gettype($menuItem) != 'object' || get_class($menuItem) != 'App\Modules\Menu\MenuItem')
             @continue
@@ -84,13 +50,21 @@
 
         @if($menuItem->type == 'sidebar-divider')
             <!-- Divider -->
-            <hr class="sidebar-divider">
+            <hr
+                class="{{ implode(' ', [
+                    'sidebar-divider', ($menuItem->class ?? ''),
+                ]) }}"
+            >
             @continue
         @endif
 
         @if($menuItem->type == 'sidebar-heading' && $menuItem->label)
             <!-- Heading -->
-            <div class="sidebar-heading">
+            <div
+                class="{{ implode(' ', [
+                    'sidebar-heading', ($menuItem->class ?? ''),
+                ]) }}"
+            >
                 {{ $menuItem->label }}
             </div>
             @continue
@@ -101,7 +75,9 @@
             @if ($menuItem->sub_items)
                 <li class="nav-item">
                     <a
-                        class="nav-link collapsed"
+                        class="{{ implode(' ', [
+                            'nav-link', 'collapsed', ($menuItem->class ?? ''),
+                        ]) }}"
                         href="{{ $menuItem->url ?? '#!' }}"
                         data-toggle="collapse"
                         data-target="#{{ $menuItem->menuItemUid }}"
@@ -164,7 +140,12 @@
                 </li>
             @else
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ $menuItem->url ?? '#!' }}">
+                    <a
+                        class="{{ implode(' ', [
+                            'nav-link', ($menuItem->class ?? ''),
+                        ]) }}"
+                        href="{{ $menuItem->url ?? '#!' }}"
+                    >
                         @if ($menuItem->icon)
                             <i class="{{ $menuItem->icon }}"></i>
                         @endif
@@ -175,13 +156,6 @@
             @continue
         @endif
     @endforeach
-
-    <!-- Nav Item - Tables -->
-    <li class="nav-item">
-        <a class="nav-link" href="tables.html">
-            <i class="fas fa-fw fa-table"></i>
-            <span>Tables</span></a>
-    </li>
 
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"

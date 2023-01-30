@@ -60,7 +60,11 @@ class MenuItem
         }
 
         if ($route && \is_string($route) && \trim($route)) {
-            $this->{'url'} = route(\trim($route));
+            $routeParams = $menuItemData['route_params'] ?? \null;
+
+            $this->{'url'} = ($routeParams && \is_array($routeParams))
+                ? route(\trim($route), $routeParams)
+                : route(\trim($route));
         }
 
         if (!$this->{'url'}) {
