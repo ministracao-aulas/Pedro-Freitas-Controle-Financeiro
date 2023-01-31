@@ -42,6 +42,8 @@ class MenuItem
      */
     protected function mapData(array $menuItemData): void
     {
+        $this->{'isActive'} = false;
+
         foreach ($menuItemData as $key => $value) {
             if (!\is_string($key) || \is_numeric($key)) {
                 continue;
@@ -52,10 +54,19 @@ class MenuItem
 
         $this->{'menuItemUid'} = 'collapsePages_' . \Str::random(10) . rand(5, 5);
 
+        $activeIfRouteIn = $menuItemData['active_if_route_in'] ?? \null;
         $route = $menuItemData['route'] ?? \null;
         $url = $menuItemData['url'] ?? \null;
 
-        if (!$route || !$url) {
+        if ($activeIfRouteIn && \is_array($activeIfRouteIn)) {
+            $this->{'isActive'} = \in_array(
+                \Route::currentRouteName(),
+                \array_filter(\array_values($activeIfRouteIn), fn ($item) => is_string($item) && trim($item)),
+                true
+            );
+        }
+
+        if (!$route && !$url) {
             return;
         }
 

@@ -13,13 +13,14 @@ return [
          * 'menu-item'       -> Itens esperados: url, icon, label, sub_items.
          */
 
-        ['type' => 'sidebar-divider'],
-
         /* *
         [
             'type' => 'sidebar-heading',
             'label' => 'Sidebar Heading',
             'icon' => 'fas fa-fw fa-folder',
+            'active_if_route_in' => [
+                'admin.contas.index',
+            ],
         ],
         [
             'type',  // string
@@ -108,9 +109,18 @@ return [
         /** */
 
         [
+            'type' => 'menu-item',
+            'icon' => 'fas fa-fw fa-tachometer-alt',
+            'route' => 'admin.dashboard',
+            'active_if_route_in' => ['admin.dashboard'],
+            'label' => 'Dashboard',
+        ],
+
+        ['type' => 'sidebar-divider'],
+        [
             'type' => 'sidebar-heading',
             'label' => 'Financeiro',
-            'icon' => 'fas fa-fw fa-folder',
+            'icon' => 'fas fa-wallet',
         ],
         [
             'type' => 'menu-item',
@@ -156,9 +166,12 @@ return [
             'route' => null,
             // 'route' => 'admin.dashboard',
             'url' => '#!',
-            'icon' => 'fas fa-fw fa-chart-area',
+            'icon' => 'fas fa-wallet',
             'label' => 'Pagamentos',
             'class' => '',
+            'active_if_route_in' => [
+                'admin.contas.index',
+            ],
 
             'can' => [], // Permissões
             'sub_items' => [
@@ -201,5 +214,196 @@ return [
         ],
 
         ['type' => 'sidebar-divider'],
+        [
+            'type' => 'sidebar-heading',
+            'label' => 'Consultas',
+            'icon' => 'fas fa-fw fa-folder',
+        ],
+
+        [
+            'type' => 'menu-item',
+            'icon' => 'fas fa-fw fa-calendar-alt',
+            'label' => 'Calendario de Pagamentos',
+            'url' => '#!',
+            // 'route' => 'admin.dashboard',
+            // 'active_if_route_in' => ['admin.dashboard'],
+        ],
+        [
+            'type' => 'menu-item',
+            'icon' => 'fa-solid fa-file-invoice-dollar',
+            'label' => 'Pagamentos',
+            'url' => '#!',
+            // 'route' => 'admin.dashboard',
+            // 'active_if_route_in' => ['admin.dashboard'],
+        ],
+
+        ['type' => 'sidebar-divider'],
+        [
+            'type' => 'sidebar-heading',
+            'label' => 'Gerenciamento',
+            'icon' => 'fas fa-fw fa-folder',
+        ],
+
+        [
+            'type' => 'menu-item',
+            'icon' => 'fas fa-id-card-alt',
+            'label' => 'Colaboradores',
+            'url' => '#!',
+            // 'route' => 'admin.dashboard',
+            // 'active_if_route_in' => ['admin.dashboard'],
+        ],
+
+        ['type' => 'sidebar-divider'],
+        [
+            'type' => 'sidebar-heading',
+            'label' => 'Administrativo',
+            'icon' => 'fas fa-fw fa-folder',
+        ],
+        [
+            'type' => 'menu-item',
+            'icon' => 'fas fa-users',
+            'label' => 'Usuários',
+            'url' => '#!',
+            'can' => [],
+            // 'route' => 'admin.dashboard',
+            // 'active_if_route_in' => ['admin.dashboard'],
+            'sub_items' => [
+                [
+                    'type' => 'menu-item',
+                    // 'route' => 'admin.contas.index',
+                    'url' => '#!',
+                    'label' => 'Lista',
+                    'can' => [],
+                ],
+                [
+                    'type' => 'menu-item',
+                    // 'route' => 'admin.contas.index',
+                    'url' => '#!',
+                    'label' => 'Cadastrar usuário',
+                    'can' => [],
+                ],
+                [
+                    'type' => 'menu-item',
+                    // 'route' => 'admin.contas.index',
+                    'url' => '#!',
+                    'label' => 'Usuários inativos',
+                    'can' => [],
+                ],
+            ],
+        ],
+
+        ['type' => 'sidebar-divider'],
+        [
+            'type' => 'sidebar-heading',
+            'label' => 'Controle de acesso',
+            'icon' => 'fas fa-fw fa-folder',
+        ],
+        [
+            'type' => 'menu-item',
+            'icon' => 'fas fa-user-shield',
+            'label' => 'Papéis',
+            'url' => '#!',
+            'can' => [],
+            // 'route' => 'admin.dashboard',
+            // 'active_if_route_in' => ['admin.dashboard'],
+            'sub_items' => [
+                [
+                    'type' => 'menu-item',
+                    // 'route' => 'admin.contas.index',
+                    'url' => '#!',
+                    'label' => 'Lista',
+                    'can' => [],
+                ],
+                [
+                    'type' => 'menu-item',
+                    // 'route' => 'admin.contas.index',
+                    'url' => '#!',
+                    'label' => 'Cadastrar papél',
+                    'can' => [],
+                ],
+            ],
+        ],
+        [
+            'type' => 'menu-item',
+            'icon' => 'fas fa-shield-alt',
+            'label' => 'Permissões',
+            'url' => '#!',
+            'can' => [],
+            // 'route' => 'admin.dashboard',
+            // 'active_if_route_in' => ['admin.dashboard'],
+            'sub_items' => [
+                [
+                    'type' => 'menu-item',
+                    // 'route' => 'admin.contas.index',
+                    'url' => '#!',
+                    'label' => 'Lista',
+                    'can' => [],
+                ],
+                [
+                    'type' => 'menu-item',
+                    // 'route' => 'admin.contas.index',
+                    'url' => '#!',
+                    'label' => 'Cadastrar permissão',
+                    'can' => [],
+                ],
+            ],
+        ],
+
+        ['type' => 'sidebar-divider'],
+        [
+            'type' => 'sidebar-heading',
+            'label' => 'Configurações',
+            'icon' => 'fas fa-fw fa-folder',
+        ],
+        [
+            'type' => 'menu-item',
+            'icon' => 'fas fa-users',
+            'label' => 'Sistema',
+            'url' => '#!',
+            'can' => [],
+            // 'route' => 'admin.dashboard',
+            // 'active_if_route_in' => ['admin.dashboard'],
+            'sub_items' => [
+                [
+                    'type' => 'menu-item',
+                    // 'route' => 'admin.contas.index',
+                    'url' => '#!',
+                    'label' => 'Avançados',
+                    'can' => [],
+                ],
+                [
+                    'type' => 'menu-item',
+                    // 'route' => 'admin.contas.index',
+                    'url' => '#!',
+                    'label' => 'Básicos',
+                    'can' => [],
+                ],
+            ],
+        ],
+        [
+            'type' => 'menu-item',
+            'icon' => 'fas fa-users',
+            'label' => 'Personalização',
+            'url' => '#!',
+            'can' => [],
+            // 'route' => 'admin.dashboard',
+            // 'active_if_route_in' => ['admin.dashboard'],
+            'sub_items' => [
+                [
+                    'type' => 'menu-item',
+                    // 'route' => 'admin.contas.index',
+                    'url' => '#!',
+                    'label' => 'Cores',
+                    'can' => [],
+                ],
+                [
+                    'type' => 'menu-item',
+                    // 'route' => 'admin.contas.index',
+                    'url' => '#!',
+                    'label' => 'Estilização',
+                    'can' => [],
+                ],
+            ],
+        ]
     ]
 ];
