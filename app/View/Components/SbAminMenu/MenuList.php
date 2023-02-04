@@ -2,12 +2,15 @@
 
 namespace App\View\Components\SbAminMenu;
 
+use App\Models\User;
 use App\Modules\Menu\MenuItem;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\Component;
 
 class MenuList extends Component
 {
     protected array $menuItems;
+    protected ?User $user;
 
     /**
      * Create a new component instance.
@@ -16,9 +19,10 @@ class MenuList extends Component
      */
     public function __construct()
     {
+        $this->user = Auth::user();
         $this->menuItems = [];
 
-        foreach (config('menu-tems.items', []) as $item) {
+        foreach ($this->getAllAvailableMenuItems() as $item) {
             $menuItem = static::createMenuItem($item);
 
             if (!$menuItem) {
@@ -27,6 +31,22 @@ class MenuList extends Component
 
             $this->menuItems[] = $menuItem;
         }
+    }
+
+    /**
+     * function getAllAvailableMenuItems
+     *
+     * @return array
+     */
+    public function getAllAvailableMenuItems(): array
+    {
+        try {
+            $currentMenuItems = $this->user ? $this->user->availableMenuItems()?->toArray() : [];
+        } catch (\Throwable $th) {
+            \Log::error($th);
+        }
+
+        return \array_merge(config('menu-tems.items', []), $currentMenuItems ?? []);
     }
 
     /**
@@ -51,6 +71,20 @@ class MenuList extends Component
             !\in_array(($menuItem['type'] ?? ''), $acceptedTypes, true)
         ) {
             return null;
+        }
+
+        $customMenuRule = $menuItem['custom_menu_rule'] ?? [];
+
+        if ($customMenuRule) {
+            foreach ($customMenuRule as $menuRule) {
+                if (\is_callable($menuRule) && !\call_user_func($menuRule)) {
+                    return \null;
+                }
+
+                if (\is_bool($menuRule) && !$menuRule) {
+                    return \null;
+                }
+            }
         }
 
         $subItems = [];

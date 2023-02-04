@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Menu;
+
 return [
     'title' => '',
     'title_class' => '',
@@ -130,6 +132,19 @@ return [
             'class' => 'my-class',
             'icon' => 'fas fa-fw fa-folder',
             'label' => 'Credores',
+            'custom_menu_rule' => [
+                // Pode-se passar um boolean ou um callable que não retorne false|null|0|[]...
+
+                // [Menu::class, 'toShow'],  // Mostra o item
+                // fn () => Menu::toShow(),  // Mostra o item
+                // Menu::toHide(false),      // Mostra o item
+
+                // [Menu::class, 'toHide'],  // Oculta o item
+                // fn () => Menu::toHide(),  // Oculta o item
+                // Menu::toShow(false),      // Oculta o item
+
+                // Sem regra, por padrão apresenta o item
+            ],
             'sub_items' => [
                 [
                     'type' => 'collapse-header',

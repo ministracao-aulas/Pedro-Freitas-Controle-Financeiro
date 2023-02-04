@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * App\Models\User
@@ -76,4 +78,24 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * function availableMenuItems
+     *
+     * @param ?bool $updateCache = false
+     *
+     * @return ?Collection
+     */
+    public function availableMenuItems(?bool $updateCache = false): ?Collection
+    {
+        return Cache::remember(
+            \implode('-', [
+                __METHOD__,
+                'user_id',
+                $this->id
+            ]),
+            3600 /*secs*/,
+            fn () => Menu::whereActive(true)->get()
+        );
+    }
 }

@@ -37,6 +37,10 @@ use Illuminate\Database\Eloquent\Model;
  * @mixin \Eloquent
  * @property-read mixed $overdue
  * @property-read mixed $overdue_formated
+ * @property-read mixed $status_color
+ * @property-read mixed $status_name
+ * @property-read mixed $type_color
+ * @property-read mixed $type_name
  */
 class Bill extends Model
 {
