@@ -2,7 +2,7 @@
 
 BASE_PATH=$(dirname "$(readlink -f "$0")")
 
-if [ ! -d "${BASE_PATH}/vendor" ]; then
+if [ ! -d "${BASE_PATH}/vendor/laravel/sail" ]; then
     docker run --rm \
         -u "$(id -u):$(id -g)" \
         -v "$(pwd):/var/www/html" \
