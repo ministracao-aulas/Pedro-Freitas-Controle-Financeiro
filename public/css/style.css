@@ -31,3 +31,44 @@
 .bg-custom-gradient-01 {
     background-image: linear-gradient(#122ac5 95%, #ff000c);
 }
+
+.tf-shadow-sm-hover {
+    box-shadow: unset !important;
+}
+
+.tf-shadow-sm-hover .fas,
+.tf-shadow-sm-hover .fa {
+    opacity: 0.7;
+}
+
+.tf-shadow-sm-hover:hover {
+    box-shadow: 0 .125rem .25rem 0 rgba(58, 59, 69, .2) !important;
+}
+
+.tf-shadow-sm-hover:hover .fas,
+.tf-shadow-sm-hover:hover .fa {
+    opacity: 1;
+}
+
+[data-action-type="trigger"][data-action-name] .fas,
+[data-action-type="trigger"][data-action-name] .fa,
+[data-action-type="trigger"][data-action-name] i.fas,
+[data-action-type="trigger"][data-action-name] i.fa,
+[data-action-type="trigger"][data-action-name] > i.fas,
+[data-action-type="trigger"][data-action-name] > i.fa,
+[data-action-name] .fas,
+[data-action-name] .fa,
+[data-action-name] i.fas,
+[data-action-name] i.fa,
+[data-action-name] > i.fas,
+[data-action-name] > i.fa,
+.fas:after, .fa:after,
+.fas:before, .fa:before,
+.fa, .fas,
+.pointer-events-none
+{
+    user-select: none !important;
+    cursor: unset !important;
+    z-index: 50 !important;
+    pointer-events: none !important;
+}

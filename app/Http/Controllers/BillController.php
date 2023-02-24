@@ -7,10 +7,16 @@ use Illuminate\Http\Request;
 
 class BillController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         return view('admin.bills.index', [
-            'bills' => Bill::orderby('id', 'desc')->paginate(),
+            'bills' => Bill::orderby('id', 'desc')
+                ->with([
+                    'creditor' => fn ($query) => $query->select(['id', 'name'])
+                ])
+                ->paginate(),
+            'deleteId' => $request->input('action') === 'delete' &&
+                is_numeric($request->input('delete_id')) ? $request->input('delete_id') : null,
         ]);
     }
 
@@ -72,5 +78,93 @@ class BillController extends Controller
         return redirect()->route('admin.contas.index')->with([
             'error' => __(':resource stored successfuly', ['resource' => 'Bill']),
         ]);
+    }
+
+    public function destroy(Request $request, $billId = null)
+    {
+        $billId ??= $request->integer('bill_id') ?: null;
+
+        if (!$billId) {
+            return \back()->with([
+                'error' => __('Identificador de conta inválido')
+            ]);
+        }
+
+        /**
+         * @var Bill $bill
+         */
+        $bill = Bill::whereId($billId)->first();
+
+        if (!$bill) {
+            return \back()->with([
+                'error' => __('Conta ::bill_id não encontrada', [
+                    'bill_id' => $billId,
+                ])
+            ]);
+        }
+
+        $deleted = $bill->delete();
+
+        return \redirect()
+            ->route('admin.contas.index')
+            ->with([
+                $deleted ? 'success' : 'error' => __(
+                    $deleted
+                        ? 'Conta ::bill_id deletada com sucesso'
+                        : 'Conta ::bill_id não encontrada',
+                    [
+                        'bill_id' => $billId,
+                    ]
+                )
+            ]);
+    }
+
+    public function update(Request $request, $billId = null)
+    {
+        $billId ??= $request->integer('bill_id') ?: null;
+
+        if (!$billId) {
+            return \back()->with([
+                'error' => __('Identificador de conta inválido')
+            ]);
+        }
+
+        /**
+         * @var Bill $bill
+         */
+        $bill = Bill::whereId($billId)->first();
+
+        if (!$bill) {
+            return \back()->with([
+                'error' => __('Conta ::bill_id não encontrada', [
+                    'bill_id' => $billId,
+                ])
+            ]);
+        }
+
+        $updated = $bill->update(
+            $request->only([
+                'title',
+                'type',
+                'overdue_date',
+                'value',
+                'status',
+                'note',
+                'creditor_id',
+            ])
+        );
+
+        return \redirect()
+            ->route('admin.contas.index')
+            ->with([
+                $updated ? 'success' : 'error' => __(
+                    $updated
+                        ? 'Conta ::bill_id deletada com sucesso'
+                        : 'Conta ::bill_id não encontrada',
+                    [
+                        'bill_id' => $billId,
+                    ]
+                )
+            ]);
     }
 }

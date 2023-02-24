@@ -176,21 +176,28 @@
     <script src="{{ URL::asset('js/sb-admin-2.min.js') }}"></script>
 
     <!-- Page level plugins -->
-    <script src="{{ URL::asset('vendor/chart.js/Chart.min.js') }}"></script>
+    <!-- <script src="{{ URL::asset('vendor/chart.js/Chart.min.js') }}"></script> -->
 
     <!-- Page level custom scripts -->
-    <script src="{{ URL::asset('js/demo/chart-area-demo.js') }}"></script>
-    <script src="{{ URL::asset('js/demo/chart-pie-demo.js') }}"></script>
+    <!-- <script src="{{ URL::asset('js/demo/chart-area-demo.js') }}"></script> -->
+    <!-- <script src="{{ URL::asset('js/demo/chart-pie-demo.js') }}"></script> -->
 
     <!-- Page level plugins -->
     <script src="{{ URL::asset('vendor/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ URL::asset('vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
 
     <!-- Page level custom scripts -->
-    <script src="{{ URL::asset('js/demo/datatables-demo.js') }}"></script>
+    <!-- <script src="{{ URL::asset('js/demo/datatables-demo.js') }}"></script> -->
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script>
-    <script src="{{ URL::asset('js/demo/mascara.js') }}"></script>
+    <!-- <script src="{{ URL::asset('js/demo/mascara.js') }}"></script> -->
+
+    <script src="{{ asset('js/libs/tiagof2/DotObject/dot-object.js') }}"></script>
+    <!-- BEGIN TypeChecker and data-actions -->
+    <!-- TypeChecker must be loaded before data-actions -->
+    <script src="{{ asset('js/libs/tiagof2/TypeChecker/TypeChecker.js') }}"></script>
+    <script src="{{ asset('js/libs/tiagof2/data-actions/data-actions.js') }}"></script>
+    <!-- END TypeChecker and data-actions -->
 
 </body>
 

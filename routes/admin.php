@@ -34,7 +34,8 @@ Route::name('admin.')->group(function () {
         Route::get('/', [BillController::class, 'index'])->name('index');
         Route::get('/{item}/show', [BillController::class, 'show'])->name('show');
         Route::get('/{item}/edit', [BillController::class, 'edit'])->name('edit');
-        Route::put('/{item}/update', [BillController::class, 'update'])->name('update');
+        Route::put('/update/{item?}', [BillController::class, 'update'])->name('update');
+        Route::match(['get', 'delete'], '/destroy/{item?}', [BillController::class, 'destroy'])->name('destroy');
         Route::get('/create', [BillController::class, 'create'])->name('create');
         Route::post('/store', [BillController::class, 'store'])->name('store');
     });

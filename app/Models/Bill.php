@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * App\Models\Bill
@@ -79,6 +80,16 @@ class Bill extends Model
         'type_name',
         'type_color',
     ];
+
+    /**
+     * Get the creditor that owns the Bill
+     *
+     * @return BelongsTo
+     */
+    public function creditor(): BelongsTo
+    {
+        return $this->belongsTo(Creditor::class);
+    }
 
     public function getOverdueAttribute()
     {
