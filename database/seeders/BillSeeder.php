@@ -15,7 +15,7 @@ class BillSeeder extends Seeder
      */
     public function run()
     {
-        $creditors = Creditor::factory(10)->create();
+        $creditors = Creditor::factory(70)->create();
 
         foreach ($creditors as $creditor) {
             Bill::factory()->createOne([
