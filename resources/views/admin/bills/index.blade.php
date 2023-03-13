@@ -20,6 +20,56 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
+                            <th colspan="100%">
+                                <div class="row" data-filter-type="container">
+                                    <div class="col-auto">
+                                        <div class="input-group my-2">
+                                            <input
+                                                type="search"
+                                                name="search"
+                                                value="{{ $search ?? '' }}"
+                                                class="form-control"
+                                                placeholder="Search"
+                                                aria-label="Search"
+                                                aria-describedby="search-input-thead"
+                                                data-filter-refresh-on="key:Enter"
+                                            >
+                                            <div class="input-group-append">
+                                                <button
+                                                    class="btn btn-sm btn-primary input-group-text"
+                                                    id="search-input-thead"
+                                                    type="button"
+                                                    data-filter-refresh-on="click"
+                                                >
+                                                    <i
+                                                        class="fa fa-search fa-sm cursor-pointer"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @if ($paginationValues ?? [])
+                                    <div class="col-2 pt-2">
+                                        <select
+                                            name="per_page"
+                                            id="per_page_tfoot"
+                                            class="form-control"
+                                            data-filter-refresh-on="change"
+                                        >
+                                        @foreach ($paginationValues as $paginationValue)
+                                                <option
+                                                    value="{{ $paginationValue }}"
+                                                    {{ ($perPage ?? null) == $paginationValue ? 'selected' : '' }}
+                                                >
+                                                    {{ $paginationValue }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    @endif
+                                </div>
+                            </th>
+                        </tr>
+                        <tr>
                             <th>#</th>
                             <th>Nome</th>
                             <th>Tipo</th>
@@ -124,11 +174,30 @@
                             </tr>
                         @endforeach
                     </tbody>
+
+                    <tfoot>
+                        <tr>
+                            <th>#</th>
+                            <th>Nome</th>
+                            <th>Tipo</th>
+                            <th>Vencimento</th>
+                            <th>Valor</th>
+                            <th>Situação</th>
+                            <th>Ações</th>
+                        </tr>
+                        <tr>
+                            <td colspan="100%">
+                                <div class="row">
+                                    <div class="col-auto">
+                                        {{ $bills->withQueryString()->links('pagination::bootstrap-4') }}
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
         </div>
-    </div>
-
     </div>
 
     <!-- Modals -->
@@ -555,8 +624,10 @@
     <script>
         window.addEventListener('load', (event) => {
             @if ($deleteId ?? null)
-                window.bill_actions.deleteBill({{$deleteId}})
+                window.bill_actions.deleteBill({{$deleteId}});
             @endif
+
+            initSearch();
         });
     </script>
 @endsection

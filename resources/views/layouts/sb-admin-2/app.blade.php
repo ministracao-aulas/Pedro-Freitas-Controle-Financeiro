@@ -199,6 +199,8 @@
     <script src="{{ asset('js/libs/tiagof2/data-actions/data-actions.js') }}"></script>
     <!-- END TypeChecker and data-actions -->
 
+    <script src="{{ asset('js/search/search.js') }}"></script>
+
 </body>
 
 </html>

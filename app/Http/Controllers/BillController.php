@@ -9,12 +9,34 @@ class BillController extends Controller
 {
     public function index(Request $request)
     {
+        $paginationValues = [
+            10, 20, 30, 40, 50, 100, 150, 200,
+        ];
+        $defaultPerPage = 20;
+        $perPage = $request->integer('per_page', $defaultPerPage);
+        $perPage = \in_array($perPage, $paginationValues, true) ? $perPage : $defaultPerPage;
+        $search = \trim((string) $request->string('search'));
+
+        $query = Bill::orderby('id', 'desc');
+
+        if ($search) {
+            // TODO: clear chars here
+            $clearedSearch = \strtoupper($search);
+
+            $query = $query->whereRaw(
+                "UPPER(title) LIKE ?",
+                ["%{$clearedSearch}%"]
+            );
+        }
+
         return view('admin.bills.index', [
-            'bills' => Bill::orderby('id', 'desc')
-                ->with([
-                    'creditor' => fn ($query) => $query->select(['id', 'name'])
-                ])
-                ->paginate(),
+            'paginationValues' => $paginationValues,
+            'perPage' => $perPage,
+            'search' => $search,
+            'bills' => $query->with([
+                'creditor' => fn ($query) => $query->select(['id', 'name'])
+            ])
+                ->paginate($perPage),
             'deleteId' => $request->input('action') === 'delete' &&
                 is_numeric($request->input('delete_id')) ? $request->input('delete_id') : null,
         ]);
