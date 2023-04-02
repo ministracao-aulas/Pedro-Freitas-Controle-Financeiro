@@ -17,10 +17,11 @@ class BillController extends Controller
         $perPage = \in_array($perPage, $paginationValues, true) ? $perPage : $defaultPerPage;
         $search = \trim((string) $request->string('search'));
 
-        $query = Bill::orderby('id', 'desc');
+        $query = Bill::orderby('id', 'desc'); //
 
         if ($search) {
             // TODO: clear chars here
+
             $clearedSearch = \strtoupper($search);
 
             $query = $query->whereRaw(
