@@ -135,6 +135,9 @@ return [
             'active_if_route_in' => [
                 'admin.contas.index',
             ],
+            'if_active_class_list' => [
+                'active',
+            ],
 
             'can' => [], // Permissões
             'sub_items' => [
@@ -143,6 +146,13 @@ return [
                     'route' => 'admin.contas.index',
                     'url' => '#!',
                     'label' => 'Lista',
+                    'active_if_route_in' => [
+                        'admin.contas.index',
+                    ],
+                    'if_active_class_list' => [
+                        'active',
+                        'current-route',
+                    ],
                 ],
                 [
                     'type' => 'menu-item',

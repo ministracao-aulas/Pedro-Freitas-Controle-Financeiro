@@ -5,7 +5,6 @@
 <html lang="pt-br">
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -31,11 +30,22 @@
 
     <link rel="shortcut icon" href="{{ URL::asset('/favicon.ico') }}" type="image/x-icon">
     <link rel="icon" href="{{ URL::asset('/favicon.ico') }}" type="image/x-icon">
+
+    @vite([
+        'resources/css/app.css',
+        'resources/js/app.js',
+    ])
+
     <link href="{{ URL::asset('css/style.css') }}" rel="stylesheet">
 
+    @yield('before_head_end')
+
+    <style>
+        [x-cloak] { display: none !important; }
+    </style>
 </head>
 
-<body id="page-top">
+<body id="page-top" x-data="pageData">
 
     <!-- Page Wrapper -->
     <div id="wrapper">
@@ -46,48 +56,14 @@
 
             <!-- Main Content -->
             <div id="content">
-
-                <!-- Topbar -->
-                <nav class="navbar navbar-expand navbar-light bg-lilas-top topbar mb-4 static-top shadow">
-
-                    <!-- Sidebar Toggle (Topbar) -->
-                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                        <i class="fa fa-bars"></i>
-                    </button>
-
-                    <!-- Topbar Navbar -->
-                    <ul class="navbar-nav ml-auto">
-
-                        <!-- Nav Item - User Information -->
-                        <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-200 small">{{ $user->name }}</span>
-                                <img class="img-profile rounded-circle" src="{{ URL::asset('img/perfil.png') }}">
-
-                            </a>
-                            <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="" data-toggle="modal" data-target="#ModalPerfil">
-                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-primary"></i>
-                                    Editar Perfil
-                                </a>
-
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="{{ route('logout') }}">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-danger"></i>
-                                    Sair
-                                </a>
-                            </div>
-                        </li>
-
-                    </ul>
-
-                </nav>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
-                <div class="container-fluid">
+                <div
+                    class="container-fluid content-container"
+                    data-element-name="content-container"
+                    x-data="contentData"
+                >
                     @include('_includes.error-messages')
 
                     @yield('content')
@@ -173,7 +149,7 @@
     <script src="{{ URL::asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="{{ URL::asset('js/sb-admin-2.min.js') }}"></script>
+    {{-- <script src="{{ URL::asset('js/sb-admin-2.min.js') }}"></script> --}}
 
     <!-- Page level plugins -->
     <!-- <script src="{{ URL::asset('vendor/chart.js/Chart.min.js') }}"></script> -->
@@ -200,7 +176,29 @@
     <!-- END TypeChecker and data-actions -->
 
     <script src="{{ asset('js/search/search.js') }}"></script>
+    @hasSection ('alpine_page_data')
+        @yield('alpine_page_data')
+    @else
+    <script>
+        window.initialAlpineContentData = {};
+    </script>
+    @endif
 
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('pageData', () => ({
+                open: false,
+
+                toggle() {
+                    this.open = ! this.open
+                },
+            }));
+
+            window.initialAlpineContentData = window.initialAlpineContentData || {};
+            Alpine.data('contentData', () => (window.initialAlpineContentData));
+
+        })
+    </script>
 </body>
 
 </html>

@@ -72,12 +72,14 @@ class Menu extends Model
         'relative_position',
         'active',
         'show_only_to',
+        'if_active_class_list',
     ];
 
     protected $casts = [
         'can' => AsCollection::class,
         'custom_menu_rule' => AsCollection::class,
         'active_if_route_in' => AsCollection::class,
+        'if_active_class_list' => AsCollection::class,
         'active' => 'boolean',
     ];
 
@@ -109,11 +111,16 @@ class Menu extends Model
 
     public function getTypeAttribute()
     {
-        if (is_null($this->type_enum) || !static::enumSafe()) {
-            return null;
+        if (is_null($this->type_enum)) {
+            return \null;
         }
 
-        return static::enumSafe()->getValue($this->type_enum, false);
+        /**
+         * @var null|Enum $enum
+         */
+        $enum = static::enum(true);
+
+        return $enum ? $enum->getValue($this->type_enum, false) : \null;
     }
 
     /**

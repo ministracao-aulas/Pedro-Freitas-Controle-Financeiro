@@ -33,13 +33,12 @@
                 <li
                     class="{{ implode(' ', [
                         'nav-item', ($menuItem->class ?? ''),
-                        ($menuItem->isActive ?? null) ? 'active' : '',
+                        $menuItem->ifActiveClasses(),
                     ]) }}"
                 >
                     <a
                         class="{{ implode(' ', [
                             'nav-link',
-                            'collapsed',
                             ($menuItem->isActive ?? null) ? '' : 'collapsed',
                             ($menuItem->class ?? ''),
                         ]) }}"
@@ -79,7 +78,10 @@
                                         @if ($subItem->label)
                                             <h6 class="collapse-header">
                                                 @if ($subItem->url ?? null)
-                                                    <a class="collapse-item" href="{{ $subItem->url }}">
+                                                    <a
+                                                        class="collapse-item {{ $subItem->ifActiveClasses() }}"
+                                                        href="{{ $subItem->url }}"
+                                                    >
                                                         {{ $subItem->label }}:
                                                     </a>
                                                 @else
@@ -97,7 +99,8 @@
                                 @if ($subItem->url ?? null)
                                     <a
                                         class="{{ implode(' ', [
-                                            'collapse-item', ($menuItem->class ?? ''),
+                                            'collapse-item', ($subItem->class ?? ''),
+                                            $subItem->ifActiveClasses()
                                         ]) }}"
                                         href="{{ $subItem->url }}"
                                     >
@@ -119,13 +122,13 @@
                 <li
                     class="{{ implode(' ', [
                         'nav-item', ($menuItem->class ?? ''),
-                        ($menuItem->isActive ?? null) ? 'active' : '',
+                        $menuItem->ifActiveClasses(),
                     ]) }}"
                 >
                     <a
                         class="{{ implode(' ', [
                             'nav-link', ($menuItem->class ?? ''),
-                            ($menuItem->isActive ?? null) ? 'active' : '',
+                            $menuItem->ifActiveClasses(),
                         ]) }}"
                         href="{{ $menuItem->url ?? '#!' }}"
                     >

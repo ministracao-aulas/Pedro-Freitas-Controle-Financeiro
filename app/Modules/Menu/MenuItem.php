@@ -54,17 +54,24 @@ class MenuItem
 
         $this->{'menuItemUid'} = 'collapsePages_' . \Str::random(10) . rand(5, 5);
 
+        $this->{'if_active_class_list'} = (array) ($menuItemData['if_active_class_list'] ?? []);
         $activeIfRouteIn = $menuItemData['active_if_route_in'] ?? \null;
         $route = $menuItemData['route'] ?? \null;
         $url = $menuItemData['url'] ?? \null;
+        $isActive = false;
 
         if ($activeIfRouteIn && \is_array($activeIfRouteIn)) {
-            $this->{'isActive'} = \in_array(
+            $isActive = \in_array(
                 \Route::currentRouteName(),
-                \array_filter(\array_values($activeIfRouteIn), fn ($item) => is_string($item) && trim($item)),
+                \array_filter(
+                    \array_values($activeIfRouteIn),
+                    fn ($item) => is_string($item) && trim($item)
+                ),
                 true
             );
         }
+
+        $this->{'isActive'} = (bool) $isActive;
 
         if (!$route && !$url) {
             return;
@@ -99,6 +106,32 @@ class MenuItem
     public function toDisplay(): bool
     {
         return (bool) $this->display;
+    }
+
+    /**
+     * function ifActiveClasses
+     *
+     * @param bool $asString
+     *
+     * @return string|array
+     */
+    public function ifActiveClasses(bool $asString = true): string|array
+    {
+        $activeIfRouteIn = $this->{'active_if_route_in'} ?? [];
+        $isActive = $activeIfRouteIn && ($this->{'isActive'} ?? false);
+
+        $ifActiveClassList = \array_filter(
+            \array_values(
+                (array) ($this->{'if_active_class_list'} ?? [])
+            ),
+            'is_string'
+        );
+
+        if (!$isActive || !$ifActiveClassList) {
+            return $asString ? '' : [];
+        }
+
+        return $asString ? \implode(' ', \array_values($ifActiveClassList)) : (array) $ifActiveClassList;
     }
 
     /**

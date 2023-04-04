@@ -1,0 +1,51 @@
+/******
+* NOTAS START
+/******/
+/* Oculta item quando a largura for MENOR que 576px */
+/*
+@media (max-width: 576px) {
+    #content-wrapper #content div[data-element-name="content-container"] {
+      display: none !important;
+    }
+}
+*/
+
+/* Oculta item quando a largura for MAIOR que 576px */
+/*
+@media (min-width: 576px) {
+    #content-wrapper #content div[data-element-name="content-container"] {
+      display: none !important;
+    }
+}
+*/
+/******
+* NOTAS END
+/******/
+
+[x-cloak] { display: none !important; }
+
+/* #content-wrapper #content div[data-element-name="content-container"] {
+    margin-top: 6.5rem !important;
+    margin-left: 6.5rem !important;
+} */
+
+/* <div class="container-fluid" style="margin-left: 6.5rem;margin-top: 6.5rem;"> */
+
+#accordionSidebar {
+    z-index: 1000;
+    margin-top: 4rem;
+}
+
+/* Ações quando a largura for MENOR que 768px */
+@media (max-width: 768px) {
+    #content-wrapper #content div[data-element-name="content-container"] {
+        margin-top: 6.5rem !important;
+    }
+}
+
+/* Ações quando a largura for MAIOR que 768px */
+@media (min-width: 768px) {
+    #content-wrapper #content div[data-element-name="content-container"] {
+        margin-top: 6.5rem !important;
+    }
+}
