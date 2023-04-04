@@ -10165,7 +10165,7 @@ a:focus {
   font-weight: 700;
 }
 
-.sidebar #sidebarToggle {
+.sidebar [data-action="sidebarToggle"] {
   width: 2.5rem;
   height: 2.5rem;
   text-align: center;
@@ -10173,18 +10173,18 @@ a:focus {
   cursor: pointer;
 }
 
-.sidebar #sidebarToggle::after {
+.sidebar [data-action="sidebarToggle"]::after {
   font-weight: 900;
   content: '\f104';
   font-family: 'Font Awesome 5 Free';
   margin-right: 0.1rem;
 }
 
-.sidebar #sidebarToggle:hover {
+.sidebar [data-action="sidebarToggle"]:hover {
   text-decoration: none;
 }
 
-.sidebar #sidebarToggle:focus {
+.sidebar [data-action="sidebarToggle"]:focus {
   outline: none;
 }
 
@@ -10193,7 +10193,7 @@ a:focus {
   overflow: hidden;
 }
 
-.sidebar.toggled #sidebarToggle::after {
+.sidebar.toggled [data-action="sidebarToggle"]::after {
   content: '\f105';
   font-family: 'Font Awesome 5 Free';
   margin-left: 0.25rem;
@@ -10388,15 +10388,15 @@ a:focus {
   color: #6e707e;
 }
 
-.sidebar-light #sidebarToggle {
+.sidebar-light [data-action="sidebarToggle"] {
   background-color: #eaecf4;
 }
 
-.sidebar-light #sidebarToggle::after {
+.sidebar-light [data-action="sidebarToggle"]::after {
   color: #b7b9cc;
 }
 
-.sidebar-light #sidebarToggle:hover {
+.sidebar-light [data-action="sidebarToggle"]:hover {
   background-color: #dddfeb;
 }
 
@@ -10440,19 +10440,19 @@ a:focus {
   color: #fff;
 }
 
-.sidebar-dark #sidebarToggle {
+.sidebar-dark [data-action="sidebarToggle"] {
   background-color: rgba(255, 255, 255, 0.2);
 }
 
-.sidebar-dark #sidebarToggle::after {
+.sidebar-dark [data-action="sidebarToggle"]::after {
   color: rgba(255, 255, 255, 0.5);
 }
 
-.sidebar-dark #sidebarToggle:hover {
+.sidebar-dark [data-action="sidebarToggle"]:hover {
   background-color: rgba(255, 255, 255, 0.25);
 }
 
-.sidebar-dark.toggled #sidebarToggle::after {
+.sidebar-dark.toggled [data-action="sidebarToggle"]::after {
   color: rgba(255, 255, 255, 0.5);
 }
 

@@ -1,5 +1,5 @@
 <button
-    type="{{ $type ?? 'button' }}" class="{{ $btnClass ?? $class ?? 'd-none d-sm-inline-block btn btn-sm' }} tf-shadow-sm-hover"
+    type="{{ $type ?? 'button' }}" class="{{ $btnClass ?? $class ?? 'd-none d-sm-inline-block btn btn-sm tf-shadow-sm-hover' }}"
 
     @if($actionName ?? null)
         data-action-name="{{ $actionName ?? null }}"
@@ -26,6 +26,8 @@
         title="{{ $title ?? null }}"
     @endif
 >
+
+    {{ $slot }}
     @if ($icon ?? null)
     <i class="{{
             implode(' ', [
@@ -34,7 +36,7 @@
                 'fa-' . ($iconSize ?? 'lg'),
                 $iconClass ?? null,
             ])
-        }}"></i>
+        }}"
+    ></i>
     @endif
-    {{ $slot }}
 </button>

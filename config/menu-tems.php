@@ -129,6 +129,63 @@ return [
             'route' => null,
             // 'route' => 'admin.dashboard',
             'url' => '#!',
+            'icon' => 'fas fa-wallet',
+            'label' => 'Contas',
+            'class' => '',
+            'active_if_route_in' => [
+                'admin.contas.index',
+            ],
+
+            'can' => [], // Permissões
+            'sub_items' => [
+                [
+                    'type' => 'menu-item',
+                    'route' => 'admin.contas.index',
+                    'url' => '#!',
+                    'label' => 'Lista',
+                ],
+                [
+                    'type' => 'menu-item',
+                    'route' => 'admin.contas.create',
+                    'url' => '#!',
+                    'label' => 'Cadastrar conta',
+                ],
+                [
+                    'type' => 'menu-item',
+                    'route' => 'admin.contas.index',
+                    'route_params' => [
+                        'filter' => [
+                            'type' => \App\Models\Bill::TYPE_FIXED,
+                        ],
+                    ],
+                    'url' => '#!',
+                    'label' => 'Lista(fixos)',
+                ],
+                [
+                    'type' => 'menu-item',
+                    'route' => null,
+                    'url' => '#!',
+                    'label' => 'Principais',
+                ],
+                [
+                    'type' => 'menu-item',
+                    'route' => null,
+                    'url' => '#!',
+                    'label' => 'Cadastrar',
+                ],
+                [
+                    'type' => 'menu-item',
+                    'route' => null,
+                    'url' => '#!',
+                    'label' => 'Com contas em atraso',
+                ],
+            ], //Pode ou não ter itens
+        ],
+        [
+            'type' => 'menu-item',
+            'route' => null,
+            // 'route' => 'admin.dashboard',
+            'url' => '#!',
             'class' => 'my-class',
             'icon' => 'fas fa-fw fa-folder',
             'label' => 'Credores',
@@ -176,57 +233,6 @@ return [
                 ],
             ],
         ],
-        [
-            'type' => 'menu-item',
-            'route' => null,
-            // 'route' => 'admin.dashboard',
-            'url' => '#!',
-            'icon' => 'fas fa-wallet',
-            'label' => 'Pagamentos',
-            'class' => '',
-            'active_if_route_in' => [
-                'admin.contas.index',
-            ],
-
-            'can' => [], // Permissões
-            'sub_items' => [
-                [
-                    'type' => 'menu-item',
-                    'route' => 'admin.contas.index',
-                    'url' => '#!',
-                    'label' => 'Lista',
-                ],
-                [
-                    'type' => 'menu-item',
-                    'route' => 'admin.contas.index',
-                    'route_params' => [
-                        'filter' => [
-                            'type' => \App\Models\Bill::TYPE_FIXED,
-                        ],
-                    ],
-                    'url' => '#!',
-                    'label' => 'Lista(fixos)',
-                ],
-                [
-                    'type' => 'menu-item',
-                    'route' => null,
-                    'url' => '#!',
-                    'label' => 'Principais',
-                ],
-                [
-                    'type' => 'menu-item',
-                    'route' => null,
-                    'url' => '#!',
-                    'label' => 'Cadastrar',
-                ],
-                [
-                    'type' => 'menu-item',
-                    'route' => null,
-                    'url' => '#!',
-                    'label' => 'Com contas em atraso',
-                ],
-            ], //Pode ou não ter itens
-        ],
 
         ['type' => 'sidebar-divider'],
         [
@@ -238,15 +244,7 @@ return [
         [
             'type' => 'menu-item',
             'icon' => 'fas fa-fw fa-calendar-alt',
-            'label' => 'Calendario de Pagamentos',
-            'url' => '#!',
-            // 'route' => 'admin.dashboard',
-            // 'active_if_route_in' => ['admin.dashboard'],
-        ],
-        [
-            'type' => 'menu-item',
-            'icon' => 'fa-solid fa-file-invoice-dollar',
-            'label' => 'Pagamentos',
+            'label' => 'Pagamentos agendados',
             'url' => '#!',
             // 'route' => 'admin.dashboard',
             // 'active_if_route_in' => ['admin.dashboard'],

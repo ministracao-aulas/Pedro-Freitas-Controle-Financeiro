@@ -11,6 +11,12 @@
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
 
+    <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0 my-1" data-action="sidebarToggle"></button>
+    </div>
+
+    <hr class="sidebar-divider my-0">
+
     <x-sb-amin-menu.menu-list />
 
     <!-- Divider -->
@@ -18,7 +24,7 @@
 
     <!-- Sidebar Toggler (Sidebar) -->
     <div class="text-center d-none d-md-inline">
-        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+        <button class="rounded-circle border-0" data-action="sidebarToggle"></button>
     </div>
 
     <!-- Sidebar Message -->

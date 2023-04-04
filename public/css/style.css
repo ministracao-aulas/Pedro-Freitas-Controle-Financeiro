@@ -72,3 +72,71 @@
     z-index: 50 !important;
     pointer-events: none !important;
 }
+
+[data-action-type="trigger"] {
+    cursor: pointer;
+}
+
+@media only screen and (min-width : 1824px) {
+    .table.fixed-col-last tr > th:last-child,
+    .table.fixed-col-last tr > td:last-child {
+        position: sticky;
+        right: 0;
+        white-space: nowrap;
+        background: #f7f5f5 !important;
+        padding: .75rem;
+        vertical-align: top;
+        border-top: 1px solid #e3e6f0 !important;
+        border-bottom: 1px solid #e3e6f0 !important;
+        box-sizing: border-box;
+    }
+
+    .table.fixed-col-last td {
+        white-space: nowrap;
+    }
+}
+
+.scrollTable th, .scrollTable td {
+    /* width: 80px; */
+    /* text-align: center; */
+    /* border: 1px solid #E0E0E0; */
+}
+.scrollTable th:first-child, .scrollTable td:first-child {
+    /* width: 120px; */
+}
+
+.scrollTable thead {
+    display: block;
+}
+.scrollTable thead,.scrollTable tfoot {
+    width: 100% !important;display: inherit;
+    background-color: #cccccc29;
+}
+.scrollTable tbody {
+    display: block;
+    max-height: 100vh;
+    overflow: auto;
+    position: sticky;
+}
+
+/* teste start */
+*::scrollbar:vertical
+*::-webkit-scrollbar:vertical {
+    width: 1.2rem !important;;
+}
+
+*::scrollbar:horizontal,
+*::-webkit-scrollbar:horizontal {
+    height: 1.2rem !important;;
+}
+
+*::scrollbar-thumb,
+*::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    border: 1.2 rem solid white; /* should match background, can't be transparent */
+    background-color: rgba(0, 0, 0, .5);
+    scroll-behavior: smooth;
+    overflow-x: visible !important;
+    overflow-y: visible !important;
+}
+/* teste fim */

@@ -12,7 +12,7 @@ class BillController extends Controller
         $paginationValues = [
             10, 20, 30, 40, 50, 100, 150, 200,
         ];
-        $defaultPerPage = 20;
+        $defaultPerPage = 10;
         $perPage = $request->integer('per_page', $defaultPerPage);
         $perPage = \in_array($perPage, $paginationValues, true) ? $perPage : $defaultPerPage;
         $search = \trim((string) $request->string('search'));

@@ -17,7 +17,12 @@
     <div class="card shadow mb-4">
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <table
+                    class="table table-bordered _scrollTable"
+                    id="dataTable"
+                    _width="100%"
+                    cellspacing="0"
+                >
                     <thead>
                         <tr>
                             <th colspan="100%">
@@ -82,19 +87,30 @@
 
                     <tbody>
                         @foreach ($bills as $bill)
+                            @php
+                                $actionCaller = "
+                                    data-action-type=\"trigger\"
+                                    data-action-object-container=\"bill_actions\"
+                                    data-action-name=\"showBill\"
+                                    data-action-event-name=\"showBill\"
+                                    data-action-info-type=\"integer\"
+                                    data-action-info=\"{$bill->id}\"
+                                ";
+                            @endphp
                             <tr
                                 data-bill-row-id="{{ $bill->id }}"
                                 data-bill-row-data="{{ json_encode($bill) }}"
                             >
-                                <td>{{ $bill->id }}</td>
-                                <td>{{ $bill->title }}</td>
-                                <td>
+                                <td {!! $actionCaller !!}>{{ $bill->id }}</td>
+
+                                <td {!! $actionCaller !!}>{{ $bill->title }}</td>
+                                <td {!! $actionCaller !!}>
                                     <span
                                         class="badge badge-pill badge-{{ $bill->type_color }}">
                                         {{ $bill->type_name }}
                                     </span>
                                 </td>
-                                <td>
+                                <td {!! $actionCaller !!}>
                                     @if ($bill->overdue_date)
                                         {{ $bill->overdue_date->format('d/m/Y') }}
                                     @endif
@@ -125,12 +141,12 @@
                                         </i>
                                     @endif
                                 </td>
-                                <td>
+                                <td {!! $actionCaller !!}>
                                     @if ($bill->value)
                                         R$ {{ number_format($bill->value, 2, ',', '.') }}
                                     @endif
                                 </td>
-                                <td>
+                                <td {!! $actionCaller !!}>
                                     <span
                                         class="badge badge-pill badge-{{ $bill->status_color }}">
                                         {{ $bill->status_name }}
@@ -147,29 +163,43 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <x-sb-amin-menu.blocks.action-button
-                                        icon-class="text-info"
-                                        icon="edit"
-                                        title="Editar conta #{{ $bill->id }}"
-                                        actionObjectContainer="bill_actions"
-                                        actionName="editBill"
-                                        actionEventName="editBill"
-                                        actionInfoType="integer"
-                                        actionInfo="{{ $bill->id }}"
-                                    >
-                                    </x-sb-amin-menu.blocks.action-button>
+                                    <div class="btn-group d-block">
+                                        <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                            @lang('Actions')
+                                        </button>
 
-                                    <x-sb-amin-menu.blocks.action-button
-                                        icon-class="text-danger"
-                                        icon="trash"
-                                        title="Excluir conta #{{ $bill->id }}"
-                                        actionObjectContainer="bill_actions"
-                                        actionName="deleteBill"
-                                        actionEventName="deleteBill"
-                                        actionInfoType="integer"
-                                        actionInfo="{{ $bill->id }}"
-                                    >
-                                    </x-sb-amin-menu.blocks.action-button>
+                                        <div class="dropdown-menu">
+                                            <x-sb-amin-menu.blocks.action-button
+                                                class="dropdown-item d-flex align-items-center justify-content-between"
+                                                icon-class="text-info"
+                                                icon="edit"
+                                                title="Editar conta #{{ $bill->id }}"
+                                                actionObjectContainer="bill_actions"
+                                                actionName="editBill"
+                                                actionEventName="editBill"
+                                                actionInfoType="integer"
+                                                actionInfo="{{ $bill->id }}"
+                                            >
+                                                @lang('app-ref.bill.edit')
+                                            </x-sb-amin-menu.blocks.action-button>
+
+                                            <div class="dropdown-divider"></div>
+
+                                            <x-sb-amin-menu.blocks.action-button
+                                                class="dropdown-item d-flex align-items-center justify-content-between"
+                                                icon-class="text-danger"
+                                                icon="trash"
+                                                title="Excluir conta #{{ $bill->id }}"
+                                                actionObjectContainer="bill_actions"
+                                                actionName="deleteBill"
+                                                actionEventName="deleteBill"
+                                                actionInfoType="integer"
+                                                actionInfo="{{ $bill->id }}"
+                                            >
+                                                @lang('app-ref.bill.delete')
+                                            </x-sb-amin-menu.blocks.action-button>
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach
@@ -202,7 +232,7 @@
 
     <!-- Modals -->
     <div class="modal fade" id="deleteBillModal" tabindex="-1" aria-labelledby="deleteBillModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-dialog-scrollable modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="deleteBillModalLabel">Deletar Registro</h5>
@@ -226,9 +256,8 @@
         </div>
     </div>
 
-    {{-- TODO --}}
     <div class="modal fade" id="editBillModal" tabindex="-1" aria-labelledby="editBillModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-dialog-scrollable modal-lg">
             <form method="POST" action="{{ route('admin.contas.update') }}">
                 @csrf
                 <input type="hidden" name="bill_id" value="{{ $editId ?? null }}">
@@ -448,6 +477,121 @@
             </form>
         </div>
     </div>
+
+    {{-- DOING --}}
+    <div class="modal fade" id="showBillModal" tabindex="-1" aria-labelledby="showBillModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-lg">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="showBillModalLabel">Editar Registro</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="w-100 mb-3">
+                        <span data-modal-message="" class="text-center"></span>
+                    </div>
+
+                    <div class="row d-flex align-items-center justify-content-between">
+                        <div class="col-4">
+                            <strong>@lang('app-ref.bill.status')</strong>
+                        </div>
+                        <div class="col" data-show-name="status"></div>
+                    </div>
+
+                    <div class="row d-flex align-items-center justify-content-between">
+                        <div class="col-4">
+                            <strong>@lang('app-ref.bill.type')</strong>
+                        </div>
+                        <div class="col" data-show-name="type"></div>
+                    </div>
+
+                    <div class="row d-flex align-items-center justify-content-between">
+                        <div class="col-4">
+                            <strong>@lang('app-ref.bill.title')</strong>
+                        </div>
+                        <div class="col" data-show-name="title"></div>
+                    </div>
+
+                    <div class="row d-flex align-items-center justify-content-between">
+                        <div class="col-4">
+                            <strong>@lang('app-ref.bill.overdue_date')</strong>
+                        </div>
+                        <div class="col" data-show-name="overdue_date"></div>
+                    </div>
+
+                    <div class="row d-flex align-items-center justify-content-between">
+                        <div class="col-4">
+                            <strong>@lang('app-ref.bill.value')</strong>
+                        </div>
+                        <div class="col" data-show-name="value"></div>
+                    </div>
+
+                    <div class="row d-flex align-items-center justify-content-between">
+                        <div class="col-4">
+                            <strong>@lang('app-ref.bill.creditor_id')</strong>
+                        </div>
+                        <div class="col" data-show-name="creditor_id"></div>
+                    </div>
+
+                    <div class="row d-flex align-items-center justify-content-between">
+                        <div class="col-4">
+                            <strong>@lang('app-ref.bill.creditor_name')</strong>
+                        </div>
+                        <div class="col" data-show-name="creditor_name"></div>
+                    </div>
+
+                    <div class="row d-flex align-items-center justify-content-between">
+                        <div class="col-4">
+                            <strong>@lang('app-ref.bill.note')</strong>
+                        </div>
+                        <div class="col" data-show-name="note"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="w-100 row d-flex align-items-center justify-content-between mx-1">
+                        <div class="col">
+                            <x-sb-amin-menu.blocks.action-button
+                                btnClass="dropdown-item"
+                                icon-class="text-info"
+                                icon="edit"
+                                data-show-name="id"
+                                actionObjectContainer="bill_actions"
+                                actionName="editBill"
+                                actionEventName="editBill"
+                                actionInfoType="integer"
+                                actionInfo="{{ $bill->id }}"
+                            >
+                                @lang('app-ref.bill.edit')
+                            </x-sb-amin-menu.blocks.action-button>
+                        </div>
+
+                        <div class="col">
+                            <x-sb-amin-menu.blocks.action-button
+                                btnClass="dropdown-item"
+                                icon-class="text-danger"
+                                icon="trash"
+                                data-show-name="id"
+                                actionObjectContainer="bill_actions"
+                                actionName="deleteBill"
+                                actionEventName="deleteBill"
+                                actionInfoType="integer"
+                                actionInfo="{{ $bill->id }}"
+                            >
+                                @lang('app-ref.bill.delete')
+                            </x-sb-amin-menu.blocks.action-button>
+                        </div>
+                        {{-- <div class="col"><button type="button" class="btn btn-info">Edit</button></div>
+                        <div class="col"><button type="button" class="btn btn-danger">Delete</button></div> --}}
+                        <div class="col"><button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- END of Modals -->
 
     <script>
@@ -464,7 +608,14 @@
                     deleteModalMessage.innerHTML = `Deseja realmente excluir o item <strong>${billId}</strong>?`
                 }
 
-                modalBillIdInput.value = billId
+                modalBillIdInput.value = billId;
+
+                try {
+                    jQuery('#showBillModal').modal('hide');
+                    jQuery('#editBillModal').modal('hide');
+                } catch (error) {
+                    console.log(error);
+                }
 
                 jQuery('#deleteBillModal').modal('show');
 
@@ -597,7 +748,14 @@
                     })
                 }
 
-                fillInputs(true)
+                fillInputs(true);
+
+                try {
+                    jQuery('#showBillModal').modal('hide');
+                    jQuery('#deleteBillModal').modal('hide');
+                } catch (error) {
+                    console.log(error);
+                }
 
                 jQuery('#editBillModal').on('show.bs.modal', function (event) {
                     modalBillIdInput.value = billId
@@ -618,6 +776,153 @@
                 })
 
                 jQuery('#editBillModal').modal('show');
+            },
+            showBill: (billId) => {
+                if (!billId) {
+                    console.log('Error: Invalid billId', billId)
+                    return
+                }
+
+                let modalContainer = document.querySelector('#showBillModal')
+
+                if (!modalContainer) {
+                    console.log('Error: Invalid modalContainer', modalContainer)
+                    return
+                }
+
+                let row = document.querySelector(`[data-bill-row-id="${billId}"]`)
+
+                if (!row) {
+                    console.log('Error: Invalid row', row)
+                    return
+                }
+
+                let rowData = (() => {
+                    try {
+                        return JSON.parse(row.dataset.billRowData)
+                    } catch (error) {
+                        console.error(error)
+                        return null
+                    }
+                })()
+
+                if (!rowData) {
+                    console.log('Error: invalid rowData', rowData)
+                    return
+                }
+
+                let infoItems = [
+                    {
+                        selector: '[data-show-name="id"]',
+                        key: 'id',
+                    },
+                    {
+                        selector: '[data-show-name="status"]',
+                        key: 'status',
+                    },
+                    {
+                        selector: '[data-show-name="type"]',
+                        key: 'type',
+                    },
+                    {
+                        selector: '[data-show-name="title"]',
+                        key: 'title',
+                    },
+                    {
+                        selector: '[data-show-name="overdue_date"]',
+                        key: 'overdue_date',
+                        formater: (input, value, rowData) => {
+                            try {
+                                return (new Date(value)).toISOString().slice(0, 10)
+                            } catch (error) {
+                                console.error('Error on overdue_date', error, 'value:', value)
+                                return value
+                            }
+                        }
+                    },
+                    {
+                        selector: '[data-show-name="value"]',
+                        key: 'value',
+                        formater: (input, value, rowData) => {
+                            console.log(input, value)
+
+                            return value
+                        }
+                    },
+                    {
+                        selector: '[data-show-name="creditor_id"]',
+                        key: 'creditor_id',
+                    },
+                    {
+                        selector: '[data-show-name="creditor_name"]',
+                        key: 'creditor',
+                        formater: (input, value, rowData) => {
+                            if (!window.DotObject || !window.DotObject.get) {
+                                return
+                            }
+
+                            return DotObject.get('name', value)
+                        }
+                    },
+                    {
+                        selector: '[data-show-name="note"]',
+                        key: 'note',
+                    },
+                ]
+
+                let updateModalInfo = (clear = false) => {
+                    infoItems.forEach(inputInfo => {
+                        if (!inputInfo || !inputInfo.selector) {
+                            return
+                        }
+
+                        let elements = modalContainer.querySelectorAll(inputInfo.selector)
+
+                        if (!elements || !elements.length) {
+                            return
+                        }
+
+                        let isEmptyValue = (clear || !inputInfo.key)
+
+                        let formater = inputInfo.formater
+
+                        let valueToSet = isEmptyValue ? '' : rowData[inputInfo.key]
+
+                        elements.forEach(element => {
+                            if (!isEmptyValue && formater) {
+                                valueToSet = formater(element, valueToSet, rowData)
+                            }
+
+                            element.innerHTML = valueToSet
+
+                            element.dispatchEvent(
+                                new Event("change")
+                            )
+                        })
+                    })
+                }
+
+                updateModalInfo(true);
+
+                let modalMessage = document.querySelector('#showBillModal [data-modal-message]')
+
+                jQuery('#showBillModal').on('show.bs.modal', function (event) {
+                    updateModalInfo()
+
+                    if (modalMessage) {
+                        modalMessage.innerHTML = `Detalhes da conta <strong>#${billId}</strong>`
+                    }
+                })
+
+                jQuery('#showBillModal').on('hidden.bs.modal', function (event) {
+                    updateModalInfo(true)
+
+                    if (modalMessage) {
+                        modalMessage.innerHTML = ''
+                    }
+                })
+
+                jQuery('#showBillModal').modal('show');
             },
         }
     </script>

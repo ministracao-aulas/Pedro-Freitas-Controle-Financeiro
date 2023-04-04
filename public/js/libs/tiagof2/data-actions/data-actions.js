@@ -66,7 +66,7 @@ let callAction = (element) => {
 window.addEventListener('load', (event) => {
     checkIfTypeCheckerIsLoaded()
 
-    document.querySelectorAll('button[data-action-type="trigger"][data-action-name]')
+    document.querySelectorAll('[data-action-type="trigger"][data-action-name]')
         .forEach(actionElement => {
             actionElement.addEventListener('click', event => {
                 event.stopPropagation()

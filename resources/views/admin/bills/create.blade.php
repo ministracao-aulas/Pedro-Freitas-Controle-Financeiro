@@ -1,6 +1,6 @@
 @extends('layouts.sb-admin-2.app')
 
-@section('title', 'Pagamentos')
+@section('title', 'Contas')
 
 @inject('billModel', 'App\Models\Bill')
 
