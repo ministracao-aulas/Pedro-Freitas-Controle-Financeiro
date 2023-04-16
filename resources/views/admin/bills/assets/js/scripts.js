@@ -223,10 +223,36 @@ window.bill_actions = {
             {
                 selector: '[data-show-name="status"]',
                 key: 'status',
+                formater: (input, value, rowData) => {
+                    try {
+                        if (!window.helpers || !window.helpers.lang || window.helpers.lang.constructor.name != 'Function') {
+                            return value;
+                        }
+
+                        let toTranslate = `enums.status.${value}`;
+
+                        return window.helpers.lang(toTranslate, value);
+                    } catch (error) {
+                        return value
+                    }
+                }
             },
             {
                 selector: '[data-show-name="type"]',
                 key: 'type',
+                formater: (input, value, rowData) => {
+                    try {
+                        if (!window.helpers || !window.helpers.lang || window.helpers.lang.constructor.name != 'Function') {
+                            return value;
+                        }
+
+                        let toTranslate = `enums.type.${value}`;
+
+                        return window.helpers.lang(toTranslate, value);
+                    } catch (error) {
+                        return value
+                    }
+                }
             },
             {
                 selector: '[data-show-name="title"]',
@@ -248,8 +274,6 @@ window.bill_actions = {
                 selector: '[data-show-name="value"]',
                 key: 'value',
                 formater: (input, value, rowData) => {
-                    console.log(input, value)
-
                     return value
                 }
             },
@@ -261,16 +285,34 @@ window.bill_actions = {
                 selector: '[data-show-name="creditor_name"]',
                 key: 'creditor',
                 formater: (input, value, rowData) => {
-                    if (!window.DotObject || !window.DotObject.get) {
-                        return
-                    }
+                    try {
+                        let toShow = DotObject.get('name', value) || '';
 
-                    return DotObject.get('name', value)
+                        if (!toShow || !window.DotObject || !window.DotObject.get) {
+                            return '';
+                        }
+
+                        return toShow;
+                    } catch (error) {
+                        return '';
+                    }
                 }
             },
             {
                 selector: '[data-show-name="note"]',
                 key: 'note',
+            },
+            {
+                selector: '[data-action-name="editBill"]',
+                key: 'id',
+                noReplaceContent: true,
+                attributes: ['data-action-info']
+            },
+            {
+                selector: '[data-action-name="deleteBill"]',
+                key: 'id',
+                noReplaceContent: true,
+                attributes: ['data-action-info']
             },
         ]
 
@@ -297,7 +339,25 @@ window.bill_actions = {
                         valueToSet = formater(element, valueToSet, rowData)
                     }
 
-                    element.innerHTML = valueToSet
+                    let attributes = inputInfo.attributes || []
+
+                    if (!inputInfo.noReplaceContent && inputInfo.isHtml) {
+                        element.innerHTML = valueToSet;
+                    }
+
+                    if (!inputInfo.noReplaceContent && !inputInfo.isHtml) {
+                        element.innerText = valueToSet;
+                    }
+
+                    if (attributes && attributes.constructor.name === 'Array' && attributes.length) {
+                        attributes.forEach(attribute => {
+                            if (!attribute) {
+                                return;
+                            }
+
+                            element.setAttribute(attribute, valueToSet);
+                        });
+                    }
 
                     element.dispatchEvent(
                         new Event("change")

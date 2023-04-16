@@ -34,9 +34,12 @@
     @vite([
         'resources/css/app.css',
         'resources/js/app.js',
+        'resources/js/customization.js',
     ])
 
     <link href="{{ URL::asset('css/style.css') }}" rel="stylesheet">
+
+    @include('_includes.global-app-data')
 
     @yield('before_head_end')
 
@@ -45,7 +48,9 @@
     </style>
 </head>
 
-<body id="page-top" x-data="pageData">
+<body id="page-top" x-data="pageData" class="sidebar-toggled">
+
+    <div class="d-none" x-data="{}"></div>
 
     <!-- Page Wrapper -->
     <div id="wrapper">
@@ -185,20 +190,37 @@
     @endif
 
     <script>
-        document.addEventListener('alpine:init', () => {
-            Alpine.data('pageData', () => ({
-                open: false,
+        window.__preferenceCallStatic = (staticMethod, ...params) => {
+            if (
+                !staticMethod ||
+                (staticMethod?.constructor?.name != 'String') ||
+                !window.__preferences ||
+                !('callStatic' in window.__preferences)
+            ) {
+                console.log('Error on "staticMethod"', staticMethod);
+                return;
 
-                toggle() {
-                    this.open = ! this.open
-                },
-            }));
+            }
+
+            return window.__preferences.callStatic(staticMethod, ...params);
+        }
+
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('pageData', () => {
+                return {
+                    sidebarIsOpen: (__preferences.callStatic('getSidebarMode', 'expand') == 'expand'),
+
+                    toggleSidebar() {
+                        __preferences.callStatic('toggleSidebarMode');
+                    },
+                }
+            });
 
             window.initialAlpineContentData = window.initialAlpineContentData || {};
             Alpine.data('contentData', () => (window.initialAlpineContentData));
-
         })
     </script>
+    @yield('before_body_end')
 </body>
 
 </html>

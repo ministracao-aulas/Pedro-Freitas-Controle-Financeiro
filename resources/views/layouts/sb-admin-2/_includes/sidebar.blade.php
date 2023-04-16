@@ -2,7 +2,11 @@
 <nav class="fixed-top navbar navbar-expand navbar-light bg-lilas-top topbar mb-4 static-top shadow">
 
     <!-- Sidebar Toggle (Topbar) -->
-    <button id="sidebarToggleTop" class="btn btn-link _d-md-none rounded-circle mr-3">
+    <button
+        id="sidebarToggleTop"
+        class="btn btn-link _d-md-none rounded-circle mr-3"
+        @click="toggleSidebar"
+    >
         <i class="fa fa-bars"></i>
     </button>
 
@@ -14,7 +18,7 @@
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
                 <span class="mr-2 d-none d-lg-inline text-gray-200 small">{{ $user->name }}</span>
-                <img class="img-profile rounded-circle" src="{{ URL::asset('img/perfil.png') }}">
+                <img class="img-profile rounded-circle" src="{{ URL::asset('img/undraw_profile_2.svg') }}">
 
             </a>
             <!-- Dropdown - User Information -->
@@ -38,11 +42,13 @@
 
 <!-- Sidebar -->
 <ul
-    class="navbar-nav bg-gradient-primary bg-lilas sidebar sidebar-dark accordion"
+    class="navbar-nav bg-gradient-primary bg-lilas sidebar sidebar-dark accordion toggled"
     id="accordionSidebar"
 >
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('admin.dashboard') }}">
+    <a
+        class="sidebar-brand d-flex align-items-center justify-content-center"
+        href="{{ route('admin.dashboard') }}">
         <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-laugh-wink"></i>
         </div>
@@ -53,7 +59,12 @@
     <hr class="sidebar-divider my-0">
 
     <div class="text-left pl-2 d-none d-md-inline">
-        <button class="rounded-circle border-0 my-1 mx-2" data-action="sidebarToggle"></button>
+        <button
+            class="rounded-circle border-0 my-1 mx-2"
+            data-action="sidebarToggle"
+            type="button"
+            @click="toggleSidebar"
+        ></button>
     </div>
 
     <hr class="sidebar-divider my-0">
@@ -65,7 +76,12 @@
 
     <!-- Sidebar Toggler (Sidebar) -->
     <div class="text-left pl-2 d-none d-md-inline">
-        <button class="rounded-circle border-0" data-action="sidebarToggle"></button>
+        <button
+            class="rounded-circle border-0"
+            data-action="sidebarToggle"
+            type="button"
+            @click="toggleSidebar"
+        ></button>
     </div>
 
     <!-- Sidebar Message -->

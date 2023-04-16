@@ -35,18 +35,27 @@
                         'nav-item', ($menuItem->class ?? ''),
                         $menuItem->ifActiveClasses(),
                     ]) }}"
+                    x-data="{
+                        collapsed: true,
+                        toggleItem() {
+                            console.log('toggleItem', this.collapsed);
+                            this.collapsed =  !this.collapsed;
+                        }
+                    }"
                 >
                     <a
                         class="{{ implode(' ', [
                             'nav-link',
-                            ($menuItem->isActive ?? null) ? '' : 'collapsed',
+                            ($menuItem->isActive ?? null) ? '' : 'active',
                             ($menuItem->class ?? ''),
                         ]) }}"
+
+                        @click="toggleItem"
 
                         aria-expanded="{{ ($menuItem->isActive ?? null) ? 'true' : 'false' }}"
 
                         href="{{ $menuItem->url ?? '#!' }}"
-                        data-toggle="collapse"
+                        data-toggle_="collapse"
                         data-target="#{{ $menuItem->menuItemUid }}"
                         aria-controls="{{ $menuItem->menuItemUid }}"
                     >
@@ -58,9 +67,10 @@
 
                     <div
                         id="{{ $menuItem->menuItemUid }}"
-                        class="collapse {{ ($menuItem->isActive ?? null) ? 'show' : '' }}"
+                        class="collapse"
                         aria-labelledby="headingPages"
                         data-parent="#accordionSidebar"
+                        :class="collapsed ? '' : 'show'"
                     >
                         <div class="bg-white py-2 collapse-inner rounded">
                             @foreach ($menuItem->sub_items as $subItem)

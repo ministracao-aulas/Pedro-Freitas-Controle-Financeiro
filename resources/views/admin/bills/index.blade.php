@@ -3,7 +3,6 @@
 @inject('billModel', 'App\Models\Bill')
 
 @section('before_head_end')
-
 @vite([
     'resources/views/admin/bills/assets/js/scripts.js',
     'resources/views/admin/bills/assets/css/styles.css',
@@ -89,16 +88,16 @@
                                     </div>
                                     @endif
 
-                                    <div class="col-2 pt-2">
-                                        <button @click="toggle">Toggle Content</button>
-
-                                        <div
-                                            x-show="open"
-                                            x-show="open"
-                                            @click.outside="open = false"
+                                    <div class="col-2 py-2 d-flex align-items-stretch">
+                                        <button
+                                            class="btn btn-sm btn-primary input-group-text"
+                                            id="search-input-thead2"
+                                            type="button"
+                                            data-filter-refresh-on="click"
                                         >
-                                            Content...
-                                        </div>
+                                            <i
+                                                class="fa fa-search fa-sm cursor-pointer"></i>
+                                        </button>
                                     </div>
                                 </div>
                             </th>
@@ -591,7 +590,7 @@
                                 actionName="editBill"
                                 actionEventName="editBill"
                                 actionInfoType="integer"
-                                actionInfo="{{ $bill->id }}"
+                                data-action-info=""
                             >
                                 @lang('app-ref.bill.edit')
                             </x-sb-amin-menu.blocks.action-button>
@@ -607,7 +606,7 @@
                                 actionName="deleteBill"
                                 actionEventName="deleteBill"
                                 actionInfoType="integer"
-                                actionInfo="{{ $bill->id }}"
+                                data-action-info=""
                             >
                                 @lang('app-ref.bill.delete')
                             </x-sb-amin-menu.blocks.action-button>
