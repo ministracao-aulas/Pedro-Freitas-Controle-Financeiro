@@ -177,4 +177,9 @@ class Bill extends Model
 
         return $colors[$this->type] ?? 'secondary';
     }
+
+    public function scopeOpened($query)
+    {
+        return $query->whereStatus(static::STATUS_OPENED);
+    }
 }
