@@ -34,23 +34,28 @@
                     class="{{ implode(' ', [
                         'nav-item', ($menuItem->class ?? ''),
                         $menuItem->ifActiveClasses(),
+                        (($menuItem->isActive ?? null) ? 'active' : '')
                     ]) }}"
                     x-data="{
-                        collapsed: true,
-                        toggleItem() {
-                            console.log('toggleItem', this.collapsed);
-                            this.collapsed =  !this.collapsed;
+                        toggleMenuItem(item) {
+                            let menuItemsElement = document.querySelector(`#${item}`);
+
+                            if (!menuItemsElement) {
+                                return;
+                            }
+
+                            menuItemsElement.classList.toggle('show')
                         }
                     }"
                 >
                     <a
                         class="{{ implode(' ', [
                             'nav-link',
-                            ($menuItem->isActive ?? null) ? '' : 'active',
+                            ($menuItem->isActive ?? null) ? 'active' : '',
                             ($menuItem->class ?? ''),
                         ]) }}"
 
-                        @click="toggleItem"
+                        @click="toggleMenuItem('{{ $menuItem->menuItemUid }}')"
 
                         aria-expanded="{{ ($menuItem->isActive ?? null) ? 'true' : 'false' }}"
 
@@ -67,10 +72,12 @@
 
                     <div
                         id="{{ $menuItem->menuItemUid }}"
-                        class="collapse"
+                        class="{{ implode(' ', [
+                            'collapse',
+                            (($menuItem->isActive ?? null) ? 'show' : '')
+                        ]) }}"
                         aria-labelledby="headingPages"
                         data-parent="#accordionSidebar"
-                        :class="collapsed ? '' : 'show'"
                     >
                         <div class="bg-white py-2 collapse-inner rounded">
                             @foreach ($menuItem->sub_items as $subItem)
@@ -133,6 +140,7 @@
                     class="{{ implode(' ', [
                         'nav-item', ($menuItem->class ?? ''),
                         $menuItem->ifActiveClasses(),
+                        (($menuItem->isActive ?? null) ? 'active' : '')
                     ]) }}"
                 >
                     <a

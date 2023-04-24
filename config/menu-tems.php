@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Menu;
+use App\Modules\Menu\MenuRules\ShowHideOnlyByEnv;
 
 return [
     'title' => '',
@@ -200,6 +201,9 @@ return [
             'icon' => 'fas fa-fw fa-folder',
             'label' => 'Credores',
             'custom_menu_rule' => [
+                [ShowHideOnlyByEnv::class, 'showOnlyInDev'],
+            ],
+            'custom_menu_rule' => [ // 'can'
                 // Pode-se passar um boolean ou um callable que não retorne false|null|0|[]...
 
                 // [Menu::class, 'toShow'],  // Mostra o item
@@ -249,6 +253,9 @@ return [
             'type' => 'sidebar-heading',
             'label' => 'Consultas',
             'icon' => 'fas fa-fw fa-folder',
+            'custom_menu_rule' => [
+                [ShowHideOnlyByEnv::class, 'showOnlyInDev'],
+            ],
         ],
 
         [
@@ -256,6 +263,9 @@ return [
             'icon' => 'fas fa-fw fa-calendar-alt',
             'label' => 'Pagamentos agendados',
             'url' => '#!',
+            'custom_menu_rule' => [
+                [ShowHideOnlyByEnv::class, 'showOnlyInDev'],
+            ],
             // 'route' => 'admin.dashboard',
             // 'active_if_route_in' => ['admin.dashboard'],
         ],
@@ -272,6 +282,9 @@ return [
             'icon' => 'fas fa-id-card-alt',
             'label' => 'Colaboradores',
             'url' => '#!',
+            'custom_menu_rule' => [
+                [ShowHideOnlyByEnv::class, 'showOnlyInDev'],
+            ],
             // 'route' => 'admin.dashboard',
             // 'active_if_route_in' => ['admin.dashboard'],
         ],
@@ -288,6 +301,9 @@ return [
             'label' => 'Usuários',
             'url' => '#!',
             'can' => [],
+            'custom_menu_rule' => [
+                [ShowHideOnlyByEnv::class, 'showOnlyInDev'],
+            ],
             // 'route' => 'admin.dashboard',
             // 'active_if_route_in' => ['admin.dashboard'],
             'sub_items' => [
@@ -327,6 +343,9 @@ return [
             'label' => 'Papéis',
             'url' => '#!',
             'can' => [],
+            'custom_menu_rule' => [
+                [ShowHideOnlyByEnv::class, 'showOnlyInDev'],
+            ],
             // 'route' => 'admin.dashboard',
             // 'active_if_route_in' => ['admin.dashboard'],
             'sub_items' => [
@@ -352,6 +371,9 @@ return [
             'label' => 'Permissões',
             'url' => '#!',
             'can' => [],
+            'custom_menu_rule' => [
+                [ShowHideOnlyByEnv::class, 'showOnlyInDev'],
+            ],
             // 'route' => 'admin.dashboard',
             // 'active_if_route_in' => ['admin.dashboard'],
             'sub_items' => [
@@ -384,6 +406,9 @@ return [
             'label' => 'Sistema',
             'url' => '#!',
             'can' => [],
+            'custom_menu_rule' => [
+                [ShowHideOnlyByEnv::class, 'showOnlyInDev'],
+            ],
             // 'route' => 'admin.dashboard',
             // 'active_if_route_in' => ['admin.dashboard'],
             'sub_items' => [
@@ -409,6 +434,9 @@ return [
             'label' => 'Personalização',
             'url' => '#!',
             'can' => [],
+            'custom_menu_rule' => [
+                [ShowHideOnlyByEnv::class, 'showOnlyInDev'],
+            ],
             // 'route' => 'admin.dashboard',
             // 'active_if_route_in' => ['admin.dashboard'],
             'sub_items' => [
