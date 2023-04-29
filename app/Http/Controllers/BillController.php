@@ -9,14 +9,18 @@ class BillController extends Controller
 {
     public function index(Request $request): \Illuminate\View\View
     {
+        $data  = Bill::requestFilterQuery(
+            $request,
+            [
+                'request' => $request,
+            ]
+        );
+
+        $data['bills'] = $data['bills']->paginate($data['perPage'] ?? 10);
+
         return view(
             'admin.bills.index',
-            Bill::requestFilterQuery(
-                $request,
-                [
-                    'request' => $request,
-                ]
-            )
+            $data
         );
     }
 

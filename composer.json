@@ -11,6 +11,7 @@
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
         "rezaamini-ir/laravel-easyblade": "^0.5.0",
+        "spatie/simple-excel": "^3.2",
         "tiagof2/f2-laravel-enums": "dev-master"
     },
     "require-dev": {

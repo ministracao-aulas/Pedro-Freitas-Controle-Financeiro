@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bill;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Spatie\SimpleExcel\SimpleExcelWriter;
 
 class ExportController extends Controller
 {
@@ -103,7 +105,21 @@ class ExportController extends Controller
             ]
         );
 
-        return $data; // WIP
+        $date = date('Y-m-d_His');
+
+        $writer = SimpleExcelWriter::streamDownload("bills-{$date}.xlsx");
+
+        if (!($data['bills'] ?? \null)) {
+            return null;
+        }
+
+        $data['bills']->chunk(100, function ($chunkedData) use ($writer) {
+            foreach ($chunkedData as $bill) {
+                $writer->addRow($bill->toArray());
+            }
+        });
+
+        return $writer->toBrowser();
     }
 
     /**

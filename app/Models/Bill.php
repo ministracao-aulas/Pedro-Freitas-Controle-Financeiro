@@ -250,8 +250,7 @@ class Bill extends Model
                 'search' => $search,
                 'bills' => $query->with([
                     'creditor' => fn ($query) => $query->select(['id', 'name'])
-                ])
-                    ->paginate($perPage),
+                ]),
                 'deleteId' => $request->input('action') === 'delete' &&
                 is_numeric($request->input('delete_id')) ? $request->input('delete_id') : null,
             ]
