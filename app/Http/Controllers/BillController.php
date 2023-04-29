@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class BillController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request): \Illuminate\View\View
     {
         $statusValues = [
             Bill::STATUS_OPENED => Bill::STATUS_OPENED,
@@ -47,7 +47,15 @@ class BillController extends Controller
             $query = $query->whereStatus($filterByStatus);
         }
 
+        $filterParams = collect($request->query())->only([
+            'per_page',
+            'filter_by',
+            'search',
+        ]);
+
         return view('admin.bills.index', [
+            'request' => $request,
+            'filterParams' => urldecode(http_build_query($filterParams->toArray())),
             'paginationValues' => $paginationValues,
             'perPage' => $perPage,
             'search' => $search,

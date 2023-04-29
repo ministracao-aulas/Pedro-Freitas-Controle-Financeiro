@@ -74,10 +74,11 @@
                         id="{{ $menuItem->menuItemUid }}"
                         class="{{ implode(' ', [
                             'collapse',
-                            (($menuItem->isActive ?? null) ? 'show' : '')
+                            (($menuItem->isActive ?? null) ? 'to_show_on_load' : '')
                         ]) }}"
                         aria-labelledby="headingPages"
                         data-parent="#accordionSidebar"
+                        @mousedown.outside="removeShowOnToggled"
                     >
                         <div class="bg-white py-2 collapse-inner rounded">
                             @foreach ($menuItem->sub_items as $subItem)
@@ -98,8 +99,9 @@
                                                     <a
                                                         class="collapse-item {{ $subItem->ifActiveClasses() }}"
                                                         href="{{ $subItem->url }}"
+                                                        data-prevent-default-onclick="{{ $subItem->isCurrentUrl() ? 'true' : 'false' }}"
                                                     >
-                                                        {{ $subItem->label }}:
+                                                        {{ $subItem->label }}
                                                     </a>
                                                 @else
                                                 {{ $subItem->label }}:
@@ -120,6 +122,7 @@
                                             $subItem->ifActiveClasses()
                                         ]) }}"
                                         href="{{ $subItem->url }}"
+                                        data-prevent-default-onclick="{{ $subItem->isCurrentUrl() ? 'true' : 'false' }}"
                                     >
                                     @if ($subItem->icon)
                                         <i class="{{ $subItem->icon }}"></i>

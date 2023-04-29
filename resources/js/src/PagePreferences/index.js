@@ -37,6 +37,21 @@ class PagePreferences {
         this.setSidebarMode(newMode);
     }
 
+    static removeShowOnToggled(...exceptElements) {
+        // Oculta os itens abertos no carregamento da página se a sidebar estiver 'toggled'
+
+        document.querySelector('#accordionSidebar.toggled') &&
+            document.querySelectorAll('[data-parent="#accordionSidebar"].collapse.show').forEach(el => {
+                console.log('exceptElements', exceptElements);
+
+                if (exceptElements.length && exceptElements.includes(el)) {
+                    return;
+                }
+
+                el.classList.remove('show');
+            })
+    }
+
     static loadPreferences() {
         this.setSidebarMode(this.getSidebarMode('retract'));
     }

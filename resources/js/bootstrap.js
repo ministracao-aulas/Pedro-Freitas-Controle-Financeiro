@@ -2,6 +2,7 @@ import Alpine from 'alpinejs'
 import _ from 'lodash';
 import axios from 'axios';
 import GlobalObject from './src/GlobalObject';
+import { onClickOut } from './src/DoZero/EventHelpers/OnClickOut';
 
 window.Alpine = Alpine
 
@@ -10,6 +11,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
 });
 
 window._ = _;
+window.onClickOut = onClickOut;
+onClickOut.initOnLoad('dom');
 
 GlobalObject.loadGlobalAppData({});
 window.GlobalObject = GlobalObject;

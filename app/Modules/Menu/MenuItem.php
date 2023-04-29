@@ -109,6 +109,18 @@ class MenuItem
     }
 
     /**
+     * function isCurrentUrl
+     *
+     * @param ?string $urlToCheck
+     *
+     * @return bool
+     */
+    public function isCurrentUrl(?string $urlToCheck = \null): bool
+    {
+        return ($urlToCheck ?? $this->{'url'} ?? \null) === \URL::current();
+    }
+
+    /**
      * function ifActiveClasses
      *
      * @param bool $asString

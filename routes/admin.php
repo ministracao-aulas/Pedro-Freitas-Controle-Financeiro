@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CadastroPagController;
 use App\Http\Controllers\CalendarioController;
+use App\Http\Controllers\ExportController;
 
 Route::name('admin.')->group(function () {
     Route::get('/', DashboardController::class)->name('dashboard');
@@ -42,4 +43,12 @@ Route::name('admin.')->group(function () {
 
     // Route::get('cadastropag', [CadastroPagController::class, 'index'])->name('cadastropag.index');
     // Route::get('calendario', [CalendarioController::class, 'index'])->name('calendario.index');
+
+    Route::any('export/{resource}/{type}', [ExportController::class, 'export'])
+    ->name('calendario.index')
+    ->where([
+        'resource' => ExportController::getPipedAlowedResources(),
+        'type' => 'pdf|csv|xlsx',
+        // 'id', '[0-9]+',
+    ]);
 });
