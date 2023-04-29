@@ -9,6 +9,17 @@ class BillController extends Controller
 {
     public function index(Request $request)
     {
+        $statusValues = [
+            Bill::STATUS_OPENED => Bill::STATUS_OPENED,
+            'opened' => Bill::STATUS_OPENED,
+            Bill::STATUS_PAID => Bill::STATUS_PAID,
+            'paid' => Bill::STATUS_PAID,
+            Bill::STATUS_POSTPONED => Bill::STATUS_POSTPONED,
+            'postponed' => Bill::STATUS_POSTPONED,
+            Bill::STATUS_OTHER => Bill::STATUS_OTHER,
+            'other' => Bill::STATUS_OTHER,
+        ];
+
         $paginationValues = [
             10, 20, 30, 40, 50, 100, 150, 200,
         ];
@@ -16,6 +27,8 @@ class BillController extends Controller
         $perPage = $request->integer('per_page', $defaultPerPage);
         $perPage = \in_array($perPage, $paginationValues, true) ? $perPage : $defaultPerPage;
         $search = \trim((string) $request->string('search'));
+        $filterBy = $request->get('filter_by');
+        $filterByStatus = $filterBy ? $statusValues[$filterBy['status']] ?? \null : null;
 
         $query = Bill::orderby('id', 'desc'); //
 
@@ -28,6 +41,10 @@ class BillController extends Controller
                 "UPPER(title) LIKE ?",
                 ["%{$clearedSearch}%"]
             );
+        }
+
+        if ($filterByStatus) {
+            $query = $query->whereStatus($filterByStatus);
         }
 
         return view('admin.bills.index', [

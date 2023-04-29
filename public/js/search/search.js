@@ -1,69 +1,102 @@
 // New search values
 var itemsOfParams = (params, asArray = false) => {
-  let items = asArray ? [] : {};
+    let items = asArray ? [] : {};
 
-  for (const [key, value] of params.entries()) {
-    if (asArray) {
-      items.push({key: key, value: value})
-      continue;
+    for (const [key, value] of params.entries()) {
+        if (asArray) {
+            items.push({ key: key, value: value })
+            continue;
+        }
+
+        items[key] = value
     }
 
-    items[key] = value
-  }
-
-  return items
+    return items
 }
 
+var incrementFilterChanges = () => {
+    window.filter_changes = (window?.filter_changes || 0) + 1;
+}
+
+window.filterURLSearchParams = () => {
+    if (!window?.filterParameters) {
+        window.filterParameters = new URLSearchParams(window.location.search);
+    }
+
+    return window?.filterParameters || new URLSearchParams(window.location.search);
+}
+
+
 // Update result
-var updateList = () => {
-  let changes = 0;
-  let queryString = window.location.search;
-  let parameters = new URLSearchParams(queryString);
+var updateList = (element = null) => {
+    window.filter_changes = window?.filter_changes || 0;
 
-  let searchInput = document.querySelector('[name="search"]')
-  let searchInputValue = searchInput ? String(searchInput.value).trim() : null;
-  let perPageInput = document.querySelector('[name="per_page"]')
-  let perPageInputValue = perPageInput ? parseInt(perPageInput.value) : 10;
+    let actionOnBypass = element ? element.dataset?.filterBypass : false;
 
-  let searchValueOnQuery = parameters.get('search')
-  let perPageValueOnQuery = parameters.get('per_page')
+    actionOnBypass = actionOnBypass && ['true', 'on', '1', true].includes(actionOnBypass)
 
-  let isNewSearch = !searchValueOnQuery || (
-    searchInputValue != searchValueOnQuery
-  )
+    let searchInput = document.querySelector('[name="search"]')
+    let searchInputValue = searchInput ? String(searchInput.value).trim() : null;
+    let perPageInput = document.querySelector('[name="per_page"]')
+    let perPageInputValue = perPageInput ? parseInt(perPageInput.value) : 10;
 
-  let isNewPerPage = !perPageValueOnQuery || (
-    perPageInputValue != perPageValueOnQuery
-  )
+    let searchValueOnQuery = (window.filterURLSearchParams()).get('search')
+    let perPageValueOnQuery = (window.filterURLSearchParams()).get('per_page')
 
-  if (!searchInputValue && parameters.has('search')) {
-    changes++;
-    parameters.delete('search');
-  }
+    let isNewSearch = !searchValueOnQuery || (
+        searchInputValue != searchValueOnQuery
+    )
 
-  if (searchInputValue && isNewSearch) {
-    changes++;
-    parameters.set('search', String(searchInputValue))
+    let isNewPerPage = !perPageValueOnQuery || (
+        perPageInputValue != perPageValueOnQuery
+    )
 
-    // Add new parameter (duplicate if exists)
-    // parameters.append('search', searchInputValue)
-  }
+    if (!searchInputValue && (window.filterURLSearchParams()).has('search')) {
+        incrementFilterChanges();
+        (window.filterURLSearchParams()).delete('search');
+    }
 
-  if (perPageInputValue && isNewPerPage) {
-    changes++;
-    parameters.set('per_page', String(perPageInputValue))
-  }
+    if (searchInputValue && isNewSearch) {
+        incrementFilterChanges();
+        (window.filterURLSearchParams()).set('search', String(searchInputValue))
 
-  if (!changes) {
-    console.log('No changes')
-    return;
-  }
+        // Add new parameter (duplicate if exists)
+        // (window.filterURLSearchParams()).append('search', searchInputValue)
+    }
 
-  // Update location/url/search
-  window.location.search = parameters
+    if (element && !element?.value) {
+        (window.filterURLSearchParams()).delete(element.getAttribute('name'));
+        window.location.search = window.filterURLSearchParams()
+        return;
+    }
+
+    if (perPageInputValue && isNewPerPage) {
+        incrementFilterChanges();
+        (window.filterURLSearchParams()).set('per_page', String(perPageInputValue))
+    }
+
+    if (!actionOnBypass && !(window?.filter_changes || 0)) {
+        console.log('No changes', actionOnBypass)
+        return;
+    }
+
+    // Update location/url/search
+    window.location.search = window.filterURLSearchParams()
 }
 
 var initSearch = (selector = '[name="search"]') => {
+    let filterByStatusInput = document.querySelector('[name="filter_by[status]"]');
+
+    filterByStatusInput.addEventListener('change', (event) => {
+        if (!event.target?.value) {
+            (window.filterURLSearchParams()).delete('filter_by[status]')
+            return;
+        }
+
+        (window.filterURLSearchParams()).set('filter_by[status]', String(event.target.value))
+        incrementFilterChanges();
+    });
+
     if (!selector || (selector.constructor.name != 'String') || !String(selector).trim()) {
         return;
     }
@@ -74,9 +107,9 @@ var initSearch = (selector = '[name="search"]') => {
         return;
     }
 
-    let runUpdateList = () => {
+    let runUpdateList = (element = null) => {
         if ('updateList' in window) {
-            updateList()
+            updateList(element)
         }
     }
 
@@ -86,7 +119,7 @@ var initSearch = (selector = '[name="search"]') => {
         }
 
         element.addEventListener('keydown', e => {
-            if ((e.key||e.keyCode) != key) {
+            if ((e.key || e.keyCode) != key) {
                 return;
             }
 
@@ -97,37 +130,37 @@ var initSearch = (selector = '[name="search"]') => {
     }
 
     document.querySelectorAll('[data-filter-type="container"]')
-    .forEach(container => {
-        container.querySelectorAll('[data-filter-refresh-on]')
-        .forEach(refreshCaller => {
-            let acceptedEvents = [
-                'click',
-                'change',
-                'key:Enter'
-            ];
+        .forEach(container => {
+            container.querySelectorAll('[data-filter-refresh-on]')
+                .forEach(refreshCaller => {
+                    let acceptedEvents = [
+                        'click',
+                        'change',
+                        'key:Enter'
+                    ];
 
-            let refreshOn = refreshCaller.dataset.filterRefreshOn;
+                    let refreshOn = refreshCaller.dataset.filterRefreshOn;
 
-            if (!refreshOn || !(acceptedEvents.includes(refreshOn))) {
-                return
-            }
+                    if (!refreshOn || !(acceptedEvents.includes(refreshOn))) {
+                        return
+                    }
 
-            let isKeyAction = String(refreshOn).startsWith('key:');
+                    let isKeyAction = String(refreshOn).startsWith('key:');
 
-            let keyName = isKeyAction ? String(refreshOn).split(':')[1] : null;
+                    let keyName = isKeyAction ? String(refreshOn).split(':')[1] : null;
 
-            let eventName = isKeyAction ? 'keydown' : refreshOn;
+                    let eventName = isKeyAction ? 'keydown' : refreshOn;
 
-            refreshCaller.addEventListener(eventName, e => {
-                if (isKeyAction && keyName) {
-                    callOnKey(e.target, keyName, runUpdateList);
-                    return;
-                }
+                    refreshCaller.addEventListener(eventName, e => {
+                        if (isKeyAction && keyName) {
+                            callOnKey(e.target, keyName, runUpdateList);
+                            return;
+                        }
 
-                runUpdateList();
-            })
+                        runUpdateList(e.target);
+                    })
+                })
         })
-    })
 
     // searchInput.addEventListener('keydown', e => {
     //     if ((e.key||e.keyCode) != 'Enter') {
