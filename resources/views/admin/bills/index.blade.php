@@ -59,7 +59,8 @@
                                                         @lang('Export')
                                                     </div>
 
-                                                    <a href="#bills-export-xlsx={{ $filterParams }}" class="btn btn-outline-success show-label-on-hover d-flex">
+                                                    @if (\App\Http\Controllers\ExportController::allowedResourceType('bills', 'xlsx'))
+                                                    <a target="_blank" href="{{ route('admin.resource_export', ['bills', 'xlsx', $filterParamsStr]) }}" class="btn btn-outline-success show-label-on-hover d-flex">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                                             class="bi bi-filetype-xlsx mt-1" viewBox="0 0 16 16">
                                                             <path fill-rule="evenodd"
@@ -67,8 +68,10 @@
                                                         </svg>
                                                         <span class="hover-label mx-1">Excel</span>
                                                     </a>
+                                                    @endif
 
-                                                    <a href="#bills-export-csv" class="btn btn-outline-secondary show-label-on-hover d-flex">
+                                                    @if (\App\Http\Controllers\ExportController::allowedResourceType('bills', 'csv'))
+                                                    <a target="_blank" href="#bills-export-csv" class="btn btn-outline-secondary show-label-on-hover d-flex">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                                             class="bi bi-filetype-csv mt-1" viewBox="0 0 16 16">
                                                             <path fill-rule="evenodd"
@@ -77,8 +80,10 @@
                                                         </svg>
                                                         <span class="hover-label mx-1">CSV</span>
                                                     </a>
+                                                    @endif
 
-                                                    <a href="#bills-export-pdf" class="btn btn-outline-danger show-label-on-hover d-flex">
+                                                    @if (\App\Http\Controllers\ExportController::allowedResourceType('bills', 'pdf'))
+                                                    <a target="_blank" href="#bills-export-pdf" class="btn btn-outline-danger show-label-on-hover d-flex">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                                             class="bi bi-filetype-pdf mt-1" viewBox="0 0 16 16">
                                                             <path fill-rule="evenodd"
@@ -86,6 +91,7 @@
                                                         </svg>
                                                         <span class="hover-label mx-1">PDF</span>
                                                     </a>
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>

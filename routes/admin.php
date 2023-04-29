@@ -45,9 +45,8 @@ Route::name('admin.')->group(function () {
     // Route::get('calendario', [CalendarioController::class, 'index'])->name('calendario.index');
 
     Route::any('export/{resource}/{type}', [ExportController::class, 'export'])
-    ->name('calendario.index')
-    ->where([
-        'resource' => ExportController::getPipedAlowedResources(),
+    ->name('resource_export')
+    ->where(['resource' => ExportController::getPipedAllowedResources(),
         'type' => 'pdf|csv|xlsx',
         // 'id', '[0-9]+',
     ]);

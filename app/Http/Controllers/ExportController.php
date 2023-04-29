@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bill;
 use Illuminate\Http\Request;
 
 class ExportController extends Controller
@@ -13,17 +14,60 @@ class ExportController extends Controller
     ];
 
     /**
-     * function getPipedAlowedResources
+     * function getAllowedResources
+     *
+     * @return array
+     */
+    public static function getAllowedResources(): array
+    {
+        return array_keys(
+            static::$alowedResources,
+        );
+    }
+
+    /**
+     * function allowedResource
+     *
+     * @param string $resource
+     *
+     * @return bool
+     */
+    public static function allowedResource(string $resource): bool
+    {
+        return \in_array(
+            $resource,
+            static::getAllowedResources(),
+            true
+        );
+    }
+
+    /**
+     * function allowedResourceType
+     *
+     * @param string $resource
+     * @param string $type
+     *
+     * @return bool
+     */
+    public static function allowedResourceType(string $resource, string $type): bool
+    {
+        if (!$resource || !$type) {
+            return false;
+        }
+
+        return (bool) (static::$alowedResources[$resource][$type] ?? []);
+    }
+
+    /**
+     * function getPipedAllowedResources
      *
      * @return string
      */
-    public static function getPipedAlowedResources(): string
+    public static function getPipedAllowedResources(): string
     {
         return implode(
             '|',
-            array_keys(
-                static::$alowedResources,
-            )
+            static::getAllowedResources(),
         );
     }
 
@@ -52,16 +96,14 @@ class ExportController extends Controller
     protected function exportBillExcel(Request $request) // [TODO] ver tipo retornado e colocar aqui
     {
         // WIP
+        $data = Bill::requestFilterQuery(
+            $request,
+            [
+                'request' => $request,
+            ]
+        );
 
-        $filterParams = collect($request->query())->only([
-            'per_page',
-            'filter_by',
-            'search',
-        ]);
-        return [
-            'content' => 'EXCEL AQUI',
-            'filterParams' => $filterParams,
-        ];
+        return $data; // WIP
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -181,5 +182,79 @@ class Bill extends Model
     public function scopeOpened($query)
     {
         return $query->whereStatus(static::STATUS_OPENED);
+    }
+
+    /**
+     * function requestFilterQuery
+     *
+     * @param Request $request
+     * @param array $initialData
+     *
+     * @return array
+     */
+    public static function requestFilterQuery(
+        Request $request,
+        array $initialData = []
+    ): array {
+        $statusValues = [
+            Bill::STATUS_OPENED => Bill::STATUS_OPENED,
+            'opened' => Bill::STATUS_OPENED,
+            Bill::STATUS_PAID => Bill::STATUS_PAID,
+            'paid' => Bill::STATUS_PAID,
+            Bill::STATUS_POSTPONED => Bill::STATUS_POSTPONED,
+            'postponed' => Bill::STATUS_POSTPONED,
+            Bill::STATUS_OTHER => Bill::STATUS_OTHER,
+            'other' => Bill::STATUS_OTHER,
+        ];
+
+        $paginationValues = [
+            10, 20, 30, 40, 50, 100, 150, 200,
+        ];
+        $defaultPerPage = 10;
+        $perPage = $request->integer('per_page', $defaultPerPage);
+        $perPage = \in_array($perPage, $paginationValues, true) ? $perPage : $defaultPerPage;
+        $search = \trim((string) $request->string('search'));
+        $filterBy = $request->get('filter_by');
+        $filterByStatus = $filterBy ? $statusValues[$filterBy['status']] ?? \null : null;
+
+        $query = Bill::orderby('id', 'desc'); //
+
+        if ($search) {
+            // TODO: clear chars here
+
+            $clearedSearch = \strtoupper($search);
+
+            $query = $query->whereRaw(
+                "UPPER(title) LIKE ?",
+                ["%{$clearedSearch}%"]
+            );
+        }
+
+        if ($filterByStatus) {
+            $query = $query->whereStatus($filterByStatus);
+        }
+
+        $filterParams = collect($request->query())->only([
+            'per_page',
+            'filter_by',
+            'search',
+        ]);
+
+        return [
+            ...$initialData,
+            ...[
+                'filterParams' => $filterParams,
+                'filterParamsStr' => urldecode(http_build_query($filterParams->toArray())),
+                'paginationValues' => $paginationValues,
+                'perPage' => $perPage,
+                'search' => $search,
+                'bills' => $query->with([
+                    'creditor' => fn ($query) => $query->select(['id', 'name'])
+                ])
+                    ->paginate($perPage),
+                'deleteId' => $request->input('action') === 'delete' &&
+                is_numeric($request->input('delete_id')) ? $request->input('delete_id') : null,
+            ]
+        ];
     }
 }
