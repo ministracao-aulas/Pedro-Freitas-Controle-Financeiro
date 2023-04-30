@@ -18,7 +18,7 @@
             <div class="col-md-4">
                 <div class="form-group">
                     <label for="title">
-                        @lang('Title')
+                        @lang('app-ref.bill.title')
                         <span class="text-small text-danger" title="@lang('Required')">*</span>
                     </label>
                     <input
