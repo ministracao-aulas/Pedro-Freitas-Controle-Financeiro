@@ -22,7 +22,10 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call(AdminUserSeeder::class);
-        $this->call(BillSeeder::class);
         $this->call(InitialMenuSeeder::class);
+
+        if (!app()->environment(['production', 'beta'])) {
+            $this->call(BillSeeder::class);
+        }
     }
 }
