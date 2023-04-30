@@ -151,7 +151,7 @@
                         id="value"
                         name="value"
                         value="{{ old('value') }}"
-                        placeholder="@lang('Bill value')"
+                        placeholder="@lang('app-ref.bill.value')"
                     >
                 </div>
             </div>

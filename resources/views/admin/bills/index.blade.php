@@ -523,7 +523,7 @@
                                         class="form-control"
                                         id="value"
                                         name="value"
-                                        placeholder="@lang('Bill value')">
+                                        placeholder="@lang('app-ref.bill.value')">
                                 </div>
                             </div>
 
