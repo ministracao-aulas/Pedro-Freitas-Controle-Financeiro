@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Validation Language Lines
@@ -215,5 +214,4 @@ return [
         'blood_type' => 'tipo sanguíneo',
         'birth_date' => 'data de nascimento'
     ],
-
 ];

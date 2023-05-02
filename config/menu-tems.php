@@ -9,7 +9,6 @@ return [
     'show_wip_items' => env('SHOW_MENU_WIP_ITEMS', false),
 
     'items' => [
-
         /**
          * 'type': Podem ser: menu-item/sidebar-divider/sidebar-heading. Caso ausente, o item será ignorado.
          * 'sidebar-heading' -> espera a chave label, caso ausente, o item será ignorado.

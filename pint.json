@@ -17,9 +17,13 @@
             "anonymous_class": true,
             "named_class": true
         },
-        "no_alternative_syntax": true,
+        "no_alternative_syntax": {
+            "fix_non_monolithic_code": true
+        },
         "elseif": true,
-        "align_multiline_comment": true,
+        "align_multiline_comment": {
+            "comment_type": "phpdocs_like"
+        },
         "heredoc_to_nowdoc": true,
         "no_binary_string": true,
         "no_empty_phpdoc": true,
@@ -28,23 +32,19 @@
         "no_closing_tag": true,
         "no_singleline_whitespace_before_semicolons": true,
         "object_operator_without_whitespace": true,
-        "nullable_type_declaration_for_default_null_value": true,
         "no_superfluous_elseif": true,
         "no_spaces_after_function_name": true,
         "native_function_casing": true,
-        "visibility_required": true,
         "native_function_type_declaration_casing": true,
         "function_typehint_space": true,
         "multiline_whitespace_before_semicolons": {
             "strategy": "no_multi_line"
         },
-        "php_unit_method_casing": true,
         "backtick_to_shell_exec": true,
         "return_assignment": true,
         "array_indentation": true,
         "blank_line_after_opening_tag": true,
         "blank_line_after_namespace": true,
-        "blank_line_before_statement": true,
         "assign_null_coalescing_to_coalesce_equal": true,
         "full_opening_tag": true,
         "explicit_string_variable": true,
@@ -67,18 +67,74 @@
         "function_declaration": {
             "closure_function_spacing": "one"
         },
+        "nullable_type_declaration_for_default_null_value": {
+            "use_nullable_type_declaration": true
+        },
+        "visibility_required": {
+            "elements": [
+                "const",
+                "method",
+                "property"
+            ]
+        },
+        "php_unit_method_casing": {
+            "case": "camel_case"
+        },
+        "blank_line_before_statement": {
+            "statements":[
+                "break",
+                "case",
+                "continue",
+                "declare",
+                "default",
+                "do",
+                "exit",
+                "for",
+                "foreach",
+                "goto",
+                "if",
+                "include",
+                "include_once",
+                "phpdoc",
+                "require",
+                "require_once",
+                "return",
+                "switch",
+                "throw",
+                "try",
+                "while",
+                "yield",
+                "yield_from"
+            ]
+        },
         "no_extra_blank_lines": {
             "tokens": [
+                "switch",
+                "case",
+                "default",
+                "use",
+                "throw",
+                "square_brace_block",
+                "return",
+                "break",
+                "parenthesis_brace_block",
+                "continue",
                 "extra"
             ]
         }
     },
     "notPath": [
-        "path/to/excluded-file.php",
-        "_dev_dir"
+        "path/to/excluded-file.php"
+    ],
+    "exclude": [
+        "_dev_dir",
+        "docker-envs"
     ],
     "notName": [
-        "*-my-file.php"
+        "*-my-file.php",
+        "*_ide_helper.php",
+        "*_ide_*",
+        ".phpstorm.meta.php"
     ],
     "docs_links": [
         "https://mlocati.github.io/php-cs-fixer-configurator",

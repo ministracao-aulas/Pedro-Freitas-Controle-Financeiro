@@ -254,7 +254,7 @@
 
 <body class="text-center">
     <div class="container">
-        @include('_includes.error-messages')
+        @include('_includes.messages')
 
         <div class="row">
             <div class="col-12 auth-section logo">

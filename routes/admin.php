@@ -3,10 +3,11 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BillController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\CadastroPagController;
-use App\Http\Controllers\CalendarioController;
 use App\Http\Controllers\ExportController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\CalendarioController;
+use App\Http\Controllers\CadastroPagController;
 
 Route::name('admin.')->group(function () {
     Route::get('/', DashboardController::class)->name('dashboard');
@@ -22,13 +23,12 @@ Route::name('admin.')->group(function () {
     });
     /**/
 
-    Route::prefix('usuarios')->name('usuarios.')->group(function () {
-        Route::get('/', [UserController::class, 'index'])->name('index');
-        Route::get('/{item}/show', [UserController::class, 'show'])->name('show');
-        Route::get('/{item}/edit', [UserController::class, 'edit'])->name('edit');
-        Route::put('/{item}/update', [UserController::class, 'update'])->name('update');
-        Route::get('/create', [UserController::class, 'create'])->name('create');
-        Route::post('/store', [UserController::class, 'store'])->name('store');
+    Route::prefix('perfil')->name('perfil.')->group(function () {
+        Route::match([
+            'post',
+            'patch',
+            'put',
+        ], '/update', [ProfileController::class, 'update'])->name('update');
     });
 
     Route::prefix('contas')->name('contas.')->group(function () {

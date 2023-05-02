@@ -70,7 +70,7 @@
                     data-element-name="content-container"
                     x-data="contentData"
                 >
-                    @include('_includes.error-messages')
+                    @include('_includes.messages')
 
                     @yield('content')
 
@@ -102,7 +102,7 @@
                     </button>
                 </div>
 
-                <form id="form-perfil" method="POST" action="{{ route('admin.usuarios.edit', $user->id) }}">
+                <form id="form-perfil" method="POST" action="{{ route('admin.perfil.update') }}">
                     @csrf
                     @method('put');
                     <div class="modal-body">
@@ -111,19 +111,19 @@
                             <div class="col-md-6 col-sm-12">
                                 <div class="form-group">
                                     <label>Nome</label>
-                                    <input value="{{ $user->name }}" type="text" class="form-control" id="name"
+                                    <input value="{{ old('name') ?? $user->name ?? '' }}" type="text" class="form-control" id="name"
                                         name="name" placeholder="Nome">
                                 </div>
 
                                 <div class="form-group">
                                     <label>CPF</label>
-                                    <input value="{{ $user->cpf }}" type="text" class="form-control" id="cpf"
+                                    <input value="{{ old('cpf') ?? $user->cpf ?? '' }}" type="text" class="form-control" id="cpf"
                                         name="cpf" placeholder="CPF">
                                 </div>
 
                                 <div class="form-group">
                                     <label>E-mail</label>
-                                    <input value="{{ $user->email }}" type="email" class="form-control" id="email"
+                                    <input value="{{ old('email') ?? $user->email ?? '' }}" type="email" class="form-control" id="email"
                                         name="email" placeholder="email">
                                 </div>
 
@@ -221,6 +221,15 @@
             Alpine.data('contentData', () => (window.initialAlpineContentData));
         })
     </script>
+
+    @if (request()->query('openModal') && is_string(request()->query('openModal')))
+        <script>
+            document.addEventListener('DOMContentLoaded', (event) => {
+                $('#{{ request()->query('openModal') }}').modal('show')
+            });
+        </script>
+    @endif
+
     @yield('before_body_end')
 </body>
 

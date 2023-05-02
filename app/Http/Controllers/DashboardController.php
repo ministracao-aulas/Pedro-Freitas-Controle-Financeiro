@@ -6,6 +6,13 @@ class DashboardController extends Controller
 {
     public function __invoke()
     {
-        return view('admin.dashboard.index');
+        return view('admin.dashboard.index', [
+            'demoFilterParams' => [
+                'filter_by' => [
+                    'status' => 'opened'
+                ],
+                'per_page' => 10,
+            ]
+        ]);
     }
 }
