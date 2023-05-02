@@ -136,6 +136,8 @@
     "Title": "Title",
     "Overdue date": "Data de vencimento",
     "Overdued": "Vencido",
+    "Due in :count days": "Vence em :count dias",
+    "Due in :count day": "Vence em :count dia",
     "Bill name": "Nome da conta",
     "Value": "Valor",
     "Note ": "Nota",
