@@ -6,6 +6,7 @@ use App\Modules\Menu\MenuRules\ShowHideOnlyByEnv;
 return [
     'title' => '',
     'title_class' => '',
+    'show_wip_items' => env('SHOW_MENU_WIP_ITEMS', false),
 
     'items' => [
 
@@ -201,7 +202,7 @@ return [
             'icon' => 'fas fa-fw fa-folder',
             'label' => 'Credores',
             'custom_menu_rule' => [
-                [ShowHideOnlyByEnv::class, 'showOnlyInDev'],
+                [ShowHideOnlyByEnv::class, 'showWipItems'],
             ],
             'custom_menu_rule' => [ // 'can'
                 // Pode-se passar um boolean ou um callable que não retorne false|null|0|[]...
@@ -254,7 +255,7 @@ return [
             'label' => 'Consultas',
             'icon' => 'fas fa-fw fa-folder',
             'custom_menu_rule' => [
-                [ShowHideOnlyByEnv::class, 'showOnlyInDev'],
+                [ShowHideOnlyByEnv::class, 'showWipItems'],
             ],
         ],
 
@@ -264,7 +265,7 @@ return [
             'label' => 'Pagamentos agendados',
             'url' => '#!',
             'custom_menu_rule' => [
-                [ShowHideOnlyByEnv::class, 'showOnlyInDev'],
+                [ShowHideOnlyByEnv::class, 'showWipItems'],
             ],
             // 'route' => 'admin.dashboard',
             // 'active_if_route_in' => ['admin.dashboard'],
@@ -283,7 +284,7 @@ return [
             'label' => 'Colaboradores',
             'url' => '#!',
             'custom_menu_rule' => [
-                [ShowHideOnlyByEnv::class, 'showOnlyInDev'],
+                [ShowHideOnlyByEnv::class, 'showWipItems'],
             ],
             // 'route' => 'admin.dashboard',
             // 'active_if_route_in' => ['admin.dashboard'],
@@ -302,7 +303,7 @@ return [
             'url' => '#!',
             'can' => [],
             'custom_menu_rule' => [
-                [ShowHideOnlyByEnv::class, 'showOnlyInDev'],
+                [ShowHideOnlyByEnv::class, 'showWipItems'],
             ],
             // 'route' => 'admin.dashboard',
             // 'active_if_route_in' => ['admin.dashboard'],
@@ -344,7 +345,7 @@ return [
             'url' => '#!',
             'can' => [],
             'custom_menu_rule' => [
-                [ShowHideOnlyByEnv::class, 'showOnlyInDev'],
+                [ShowHideOnlyByEnv::class, 'showWipItems'],
             ],
             // 'route' => 'admin.dashboard',
             // 'active_if_route_in' => ['admin.dashboard'],
@@ -372,7 +373,7 @@ return [
             'url' => '#!',
             'can' => [],
             'custom_menu_rule' => [
-                [ShowHideOnlyByEnv::class, 'showOnlyInDev'],
+                [ShowHideOnlyByEnv::class, 'showWipItems'],
             ],
             // 'route' => 'admin.dashboard',
             // 'active_if_route_in' => ['admin.dashboard'],
@@ -407,7 +408,7 @@ return [
             'url' => '#!',
             'can' => [],
             'custom_menu_rule' => [
-                [ShowHideOnlyByEnv::class, 'showOnlyInDev'],
+                [ShowHideOnlyByEnv::class, 'showWipItems'],
             ],
             // 'route' => 'admin.dashboard',
             // 'active_if_route_in' => ['admin.dashboard'],
@@ -435,7 +436,7 @@ return [
             'url' => '#!',
             'can' => [],
             'custom_menu_rule' => [
-                [ShowHideOnlyByEnv::class, 'showOnlyInDev'],
+                [ShowHideOnlyByEnv::class, 'showWipItems'],
             ],
             // 'route' => 'admin.dashboard',
             // 'active_if_route_in' => ['admin.dashboard'],

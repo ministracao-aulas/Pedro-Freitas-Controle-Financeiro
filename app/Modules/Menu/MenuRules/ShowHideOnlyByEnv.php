@@ -26,4 +26,14 @@ class ShowHideOnlyByEnv
     {
         return static::showOnlyIn(['local', 'dev']);
     }
+
+    /**
+     * function showWipItems
+     *
+     * @return bool
+     */
+    public static function showWipItems(): bool
+    {
+        return config('menu-tems.show_wip_items');
+    }
 }
