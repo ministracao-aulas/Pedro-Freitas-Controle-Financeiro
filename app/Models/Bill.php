@@ -120,7 +120,7 @@ class Bill extends Model
             'ago' => 'de atraso',
         ];
 
-        return \str_replace(
+        return __('Overdued') . ' ' . \str_replace(
             \array_keys($toReplace),
             \array_values($toReplace),
             now()->subDays(5)->diffForHumans()

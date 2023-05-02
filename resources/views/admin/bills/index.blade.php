@@ -224,6 +224,7 @@
                     <tbody>
                         @foreach ($bills as $bill)
                             @php
+                                $blankSpaces = str_repeat("&nbsp;", 20);
                                 $actionCaller = "
                                     data-action-type=\"trigger\"
                                     data-action-object-container=\"bill_actions\"
@@ -231,11 +232,15 @@
                                     data-action-event-name=\"showBill\"
                                     data-action-info-type=\"integer\"
                                     data-action-info=\"{$bill->id}\"
+                                    data-easy-tooltip=\"Clique para visualizar a conta\"
+                                    title=\"Clique para visualizar a conta\"
+                                    data-placement=\"top\"
                                 ";
                             @endphp
                             <tr
                                 data-bill-row-id="{{ $bill->id }}"
-                                data-bill-row-data="{{ json_encode($bill) }}">
+                                data-bill-row-data="{{ json_encode($bill) }}"
+                            >
                                 <td {!! $actionCaller !!}>{{ $bill->id }}</td>
 
                                 <td {!! $actionCaller !!}>{{ $bill->title }}</td>
@@ -251,23 +256,33 @@
                                     @endif
 
                                     @if ($bill->overdue)
+                                    <span
+                                        data-easy-tooltip="{{ $bill->overdue_formated }}"
+                                        title="{{ $bill->overdue_formated }}"
+                                        class="tooltip-bg-danger"
+                                        data-placement="top"
+                                    >
                                         <i
                                             class="fa fa-info-circle fa-lg text-danger cursor-pointer"
                                             aria-hidden="true"
-                                            data-toggle="tooltip"
-                                            data-placement="top"
-                                            title="{{ $bill->overdue_formated }}">
+                                        >
                                         </i>
+                                    </span>
                                     @endif
 
                                     @if ($bill->overdue_date && !$bill->overdue && $bill->overdue_date->diffInDays() <= 5)
-                                        <i
-                                            class="fa fa-info-circle fa-lg text-warning cursor-pointer"
-                                            aria-hidden="true"
-                                            data-toggle="tooltip"
+                                        <span
+                                            data-easy-tooltip="{{ trans_choice('Due in :count days', $bill->overdue_date->diffInDays()) }}"
+                                            title="{{ trans_choice('Due in :count days', $bill->overdue_date->diffInDays()) }}"
+                                            class="tooltip-bg-warning cursor-pointer"
                                             data-placement="top"
-                                            title="{{ trans_choice('Due in :count days', $bill->overdue_date->diffInDays()) }}">
-                                        </i>
+                                        >
+                                            <i
+                                                class="fa fa-info-circle fa-lg text-warning cursor-pointer"
+                                                aria-hidden="true"
+                                            >
+                                            </i>
+                                        </span>
                                     @endif
                                 </td>
                                 <td {!! $actionCaller !!}>
@@ -282,13 +297,18 @@
                                     </span>
 
                                     @if ($bill->overdue)
-                                        <i
-                                            class="fa fa-info-circle fa-sm text-danger cursor-pointer"
-                                            aria-hidden="true"
-                                            data-toggle="tooltip"
+                                        <span
+                                            class="tooltip-bg-danger cursor-pointer"
+                                            title="{{ $bill->overdue_formated }}"
+                                            data-easy-tooltip="{{ $bill->overdue_formated }}"
                                             data-placement="top"
-                                            title="{{ $bill->overdue_formated }}">
-                                        </i>
+                                        >
+                                            <i
+                                                class="fa fa-info-circle fa-lg text-danger cursor-pointer"
+                                                aria-hidden="true"
+                                            >
+                                            </i>
+                                        </span>
                                     @endif
                                 </td>
                                 <td>
