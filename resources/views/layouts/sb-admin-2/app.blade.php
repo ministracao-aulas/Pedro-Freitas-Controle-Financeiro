@@ -33,6 +33,7 @@
 
     @vite([
         'resources/css/app.css',
+        'resources/css/blocks/custom-tooltip.scss',
         'resources/js/app.js',
         'resources/js/customization.js',
     ])

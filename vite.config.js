@@ -18,6 +18,7 @@ export default defineConfig(({ command, mode }) => {
 
         'resources/views/admin/dashboard/assets/js/scripts.js',
         'resources/views/admin/dashboard/assets/css/styles.css',
+        'resources/css/blocks/custom-tooltip.scss',
     ];
 
     inputFiles = inputFiles.map(
