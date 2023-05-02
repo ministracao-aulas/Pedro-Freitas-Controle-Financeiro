@@ -271,8 +271,8 @@
                                     @endif
                                 </td>
                                 <td {!! $actionCaller !!}>
-                                    @if ($bill->value)
-                                        R$ {{ number_format($bill->value, 2, ',', '.') }}
+                                    @if ($bill->value ?? null)
+                                        R$ {{ number_format((float) ($bill->value), 2, ',', '.') }}
                                     @endif
                                 </td>
                                 <td {!! $actionCaller !!}>
