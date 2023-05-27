@@ -2,8 +2,6 @@
 
 namespace App\Modules\Menu\MenuRules;
 
-use App\Models\Menu;
-
 class ShowHideOnlyByEnv
 {
     /**

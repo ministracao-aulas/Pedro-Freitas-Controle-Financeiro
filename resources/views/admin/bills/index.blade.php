@@ -3,7 +3,10 @@
 @inject('billModel', 'App\Models\Bill')
 
 @section('before_head_end')
-    @vite(['resources/views/admin/bills/assets/js/scripts.js', 'resources/views/admin/bills/assets/css/styles.css'])
+    @vite([
+        'resources/views/admin/bills/assets/js/scripts.js',
+        'resources/views/admin/bills/assets/css/styles.css',
+    ])
 @endsection
 
 @section('alpine_page_data')

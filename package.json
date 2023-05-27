@@ -17,8 +17,7 @@
         "lodash": "^4.17.21",
         "postcss": "^8.4.23",
         "startbootstrap-sb-admin": "^7.0.7",
-        "vite": "^4.3.9",
-        "vue": "^3.3.4"
+        "vite": "^4.3.9"
     },
     "dependencies": {
         "@types/chart.js": "^2.9.37",
