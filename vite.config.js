@@ -43,5 +43,8 @@ export default defineConfig(({ command, mode }) => {
                 { find: '@asset', replacement: fileURLToPath(new URL('./public', import.meta.url)) },
             ],
         },
+        build: {
+            cssCodeSplit: true,
+        },
     }
 })

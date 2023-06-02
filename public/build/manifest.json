@@ -1,0 +1,45 @@
+{
+  "resources/css/app.css": {
+    "file": "assets/app-359a01be.css",
+    "isEntry": true,
+    "src": "resources/css/app.css"
+  },
+  "resources/css/blocks/custom-tooltip.scss": {
+    "file": "assets/custom-tooltip-b11e258d.css",
+    "isEntry": true,
+    "src": "resources/css/blocks/custom-tooltip.scss"
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-cc3a2c5d.js",
+    "imports": [
+      "resources/js/customization.js"
+    ],
+    "isEntry": true,
+    "src": "resources/js/app.js"
+  },
+  "resources/js/customization.js": {
+    "file": "assets/customization-eeaee078.js",
+    "isEntry": true,
+    "src": "resources/js/customization.js"
+  },
+  "resources/views/admin/bills/assets/css/styles.css": {
+    "file": "assets/styles-e3b0c442.css",
+    "isEntry": true,
+    "src": "resources/views/admin/dashboard/assets/css/styles.css"
+  },
+  "resources/views/admin/bills/assets/js/scripts.js": {
+    "file": "assets/scripts-2dd846ac.js",
+    "isEntry": true,
+    "src": "resources/views/admin/bills/assets/js/scripts.js"
+  },
+  "resources/views/admin/dashboard/assets/css/styles.css": {
+    "file": "assets/styles-e3b0c442.css",
+    "isEntry": true,
+    "src": "resources/views/admin/dashboard/assets/css/styles.css"
+  },
+  "resources/views/admin/dashboard/assets/js/scripts.js": {
+    "file": "assets/scripts-982b740d.js",
+    "isEntry": true,
+    "src": "resources/views/admin/dashboard/assets/js/scripts.js"
+  }
+}
