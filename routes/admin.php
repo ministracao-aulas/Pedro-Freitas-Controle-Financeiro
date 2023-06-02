@@ -39,6 +39,7 @@ Route::name('admin.')->group(function () {
         Route::match(['get', 'delete'], '/destroy/{item?}', [BillController::class, 'destroy'])->name('destroy');
         Route::get('/create', [BillController::class, 'create'])->name('create');
         Route::post('/store', [BillController::class, 'store'])->name('store');
+        Route::get('/wip', [BillController::class, 'wip'])->name('wip');
     });
 
     // Route::get('cadastropag', [CadastroPagController::class, 'index'])->name('cadastropag.index');

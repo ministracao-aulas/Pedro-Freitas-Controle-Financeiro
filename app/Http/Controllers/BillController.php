@@ -7,6 +7,19 @@ use Illuminate\Http\Request;
 
 class BillController extends Controller
 {
+    public function wip(Request $request): \Illuminate\View\View
+    {
+        return view(
+            'admin.bills.wip',
+            [
+                'dateRange' => $request->get('date_range'),
+                'startDate' => $request->get('date_range')['startDate'] ?? \null,
+                'endDate' => $request->get('date_range')['endDate'] ?? \null,
+                'dateRangeMode' => $request->get('dateRangeMode', 'current_month'),
+            ]
+        );
+    }
+
     public function index(Request $request): \Illuminate\View\View
     {
         $data  = Bill::requestFilterQuery(
