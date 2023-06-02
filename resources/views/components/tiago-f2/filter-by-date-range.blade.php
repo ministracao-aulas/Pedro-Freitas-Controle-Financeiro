@@ -17,7 +17,7 @@
                                 x-model="range"
                                 x-on:change="validateDatesAndCommit"
                                 required>
-                                <option value="" disabled>@lang('Date range')</option>
+                                <option value="" disabled>@lang('Date range') (@lang('Overdue date'))</option>
                                 <option value="current_month">@lang('Current month')</option>
                                 <option value="last_7_days">@lang('Last :count days', ['count' => 7])</option>
                                 <option value="last_30_days">@lang('Last :count days', ['count' => 30])</option>

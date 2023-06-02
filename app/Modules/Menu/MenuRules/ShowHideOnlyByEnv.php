@@ -22,6 +22,6 @@ class ShowHideOnlyByEnv
      */
     public static function showOnlyInDev(): bool
     {
-        return static::showOnlyIn(['local', 'dev']);
+        return \config('menu-tems.show_menu_wip_items', false) && static::showOnlyIn(['local', 'dev']);
     }
 }

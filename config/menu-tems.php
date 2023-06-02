@@ -6,6 +6,7 @@ use App\Modules\Menu\MenuRules\ShowHideOnlyByEnv;
 return [
     'title' => '',
     'title_class' => '',
+    'show_menu_wip_items' => env('SHOW_MENU_WIP_ITEMS', false),
 
     'items' => [
 
