@@ -148,5 +148,6 @@
     "Filter by status": "Filtro por status",
     "Can changed later": "Pode ser alterado",
     "Your note was here": "Sua anotação vai aqui",
+    "Start date cannot be greater than end date.": "A data de início não pode ser posterior à data de término.",
     "to": "até"
 }

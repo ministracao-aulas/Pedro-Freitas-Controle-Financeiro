@@ -59,6 +59,11 @@
                                             parseDate: true,
                                             defaultDate: [],
                                             mode: 'single',
+                                            onChange: function(selectedDates, dateStr, instance) {
+                                                setStartDate(dateStr);
+
+                                                {{-- validateDates() --}}
+                                            },
                                         })"
                                         type="text"
                                         x-bind:placeholder="getStartDate()"
@@ -83,6 +88,11 @@
                                             parseDate: true,
                                             defaultDate: [],
                                             mode: 'single',
+                                            onChange: function(selectedDates, dateStr, instance) {
+                                                setEndDate(dateStr);
+
+                                                {{-- validateDates() --}}
+                                            },
                                         })"
                                         type="text"
                                         x-bind:placeholder="getEndDate()"
@@ -211,6 +221,20 @@
                                     },
                                     isoFirstDayOfCurrentMonth() {
                                         return this.isoDate(this.firstDayOfCurrentMonth());
+                                    },
+                                    setStartDate(startDate) {
+                                        if (!startDate) {
+                                            return;
+                                        }
+
+                                        this.startDate = startDate;
+                                    },
+                                    setEndDate(endDate) {
+                                        if (!endDate) {
+                                            return;
+                                        }
+
+                                        this.endDate = endDate;
                                     },
                                     getStartDate() {
                                         let today = new Date();
