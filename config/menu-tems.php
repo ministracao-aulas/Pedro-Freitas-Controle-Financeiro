@@ -7,6 +7,7 @@ return [
     'title' => '',
     'title_class' => '',
     'show_wip_items' => env('SHOW_MENU_WIP_ITEMS', false),
+    'show_menu_wip_items' => env('SHOW_MENU_WIP_ITEMS', false),
 
     'items' => [
         /**
@@ -155,6 +156,17 @@ return [
                         'current-route',
                     ],
                 ],
+
+                [
+                    'type' => 'menu-item',
+                    'route' => 'admin.contas.wip',
+                    'label' => 'WIP',
+                    'icon' => 'fas fa-fw fa-cogs',
+                    'custom_menu_rule' => [
+                        [ShowHideOnlyByEnv::class, 'showOnlyInDev'],
+                    ],
+                ],
+
                 [
                     'type' => 'menu-item',
                     'route' => 'admin.contas.create',

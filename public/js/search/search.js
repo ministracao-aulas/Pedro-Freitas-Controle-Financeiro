@@ -26,6 +26,17 @@ window.filterURLSearchParams = () => {
     return window?.filterParameters || new URLSearchParams(window.location.search);
 }
 
+window.searchHelpers = {
+    instance: window.filterURLSearchParams,
+    has: (key) => window.filterURLSearchParams().has(key),
+    delete: (key) => window.filterURLSearchParams().delete(key),
+    set: (key, value) => window.filterURLSearchParams().set(key, value),
+    get: (key, defaultValue = null) => window.filterURLSearchParams().get(key, defaultValue),
+    delete: (key) => window.filterURLSearchParams().delete(key),
+
+    // Update location/url/search
+    commit: () => window.location.search = window.filterURLSearchParams()
+}
 
 // Update result
 var updateList = (element = null) => {
@@ -86,6 +97,11 @@ var updateList = (element = null) => {
 
 var initSearch = (selector = '[name="search"]') => {
     let filterByStatusInput = document.querySelector('[name="filter_by[status]"]');
+
+    if (!filterByStatusInput) {
+        console.log('This page has no filter');
+        return;
+    }
 
     filterByStatusInput.addEventListener('change', (event) => {
         if (!event.target?.value) {

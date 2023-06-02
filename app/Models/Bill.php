@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Http\Request;
+use Abbasudo\Purity\Traits\Sortable;
+use Abbasudo\Purity\Traits\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -47,6 +49,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Bill extends Model
 {
     use HasFactory;
+    use Sortable;
+    use Filterable; // Exemplos em filter-demo.md
 
     public const TYPE_FIXED = 0;
     public const TYPE_VARIABLE = 1;
@@ -71,6 +75,10 @@ class Bill extends Model
 
     protected $dates = [
         'overdue_date',
+    ];
+
+    protected $casts = [
+        'overdue_date' => 'datetime',
     ];
 
     protected $appends = [
@@ -179,9 +187,9 @@ class Bill extends Model
         return $colors[$this->type] ?? 'secondary';
     }
 
-    public function scopeOpened($query)
+    public function scopeOpened($billQuery)
     {
-        return $query->whereStatus(static::STATUS_OPENED);
+        return $billQuery->whereStatus(static::STATUS_OPENED);
     }
 
     /**
@@ -217,21 +225,52 @@ class Bill extends Model
         $filterBy = $request->get('filter_by');
         $filterByStatus = $filterBy ? $statusValues[$filterBy['status']] ?? \null : null;
 
-        $query = Bill::orderby('id', 'desc'); //
+        $dateRange = $request->get('date_range');
+        $startDate = $request->get('date_range')['startDate'] ?? \null;
+        $endDate = $request->get('date_range')['endDate'] ?? \null;
+        $dateRangeMode = $request->get('dateRangeMode', 'current_month');
+
+        $billQuery = Bill::orderby('id', 'desc'); //
 
         if ($search) {
             // TODO: clear chars here
 
             $clearedSearch = \strtoupper($search);
 
-            $query = $query->whereRaw(
+            $billQuery = $billQuery->whereRaw(
                 "UPPER(title) LIKE ?",
                 ["%{$clearedSearch}%"]
             );
         }
 
         if ($filterByStatus) {
-            $query = $query->whereStatus($filterByStatus);
+            $billQuery = $billQuery->whereStatus($filterByStatus);
+        }
+
+        $overdueDateQuery = \null;
+
+        if ($startDate || $endDate) {
+            if ($startDate && $endDate && $startDate <= $endDate) {
+                $overdueDateQuery = $billQuery->whereBetween(
+                    'overdue_date',
+                    [
+                        "{$startDate} 00:00",
+                        "{$endDate} 23:59"
+                    ]
+                );
+            }
+
+            if (!$overdueDateQuery && $startDate && !$endDate) {
+                $overdueDateQuery = $billQuery->where('overdue_date', '>=', "{$startDate} 00:00");
+            }
+
+            if (!$overdueDateQuery && !$startDate && $endDate) {
+                $overdueDateQuery = $billQuery->where('overdue_date', '<=', "{$endDate} 23:59");
+            }
+        }
+
+        if ($overdueDateQuery) {
+            $billQuery = $overdueDateQuery;
         }
 
         $filterParams = collect($request->query())->only([
@@ -248,8 +287,8 @@ class Bill extends Model
                 'paginationValues' => $paginationValues,
                 'perPage' => $perPage,
                 'search' => $search,
-                'bills' => $query->with([
-                    'creditor' => fn ($query) => $query->select(['id', 'name'])
+                'bills' => $billQuery->with([
+                    'creditor' => fn ($billQuery) => $billQuery->select(['id', 'name'])
                 ]),
                 'deleteId' => $request->input('action') === 'delete' &&
                 is_numeric($request->input('delete_id')) ? $request->input('delete_id') : null,

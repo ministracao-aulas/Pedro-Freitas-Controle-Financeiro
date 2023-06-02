@@ -32,6 +32,6 @@ class ShowHideOnlyByEnv
      */
     public static function showWipItems(): bool
     {
-        return config('menu-tems.show_wip_items');
+        return config('menu-tems.show_wip_items', false);
     }
 }
