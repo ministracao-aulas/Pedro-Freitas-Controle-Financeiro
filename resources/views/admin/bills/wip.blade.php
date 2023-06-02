@@ -28,6 +28,9 @@
     <div class="card shadow mb-4">
         <div class="card-body">
             <h1>WIP Page</h1>
+        <x-tiago-f2.flatpickr />
+            {{ $bills->count() }}
+
             <x-tiago-f2.filter-by-date-range
                 :dateRange="$dateRange"
                 :startDate="$startDate"

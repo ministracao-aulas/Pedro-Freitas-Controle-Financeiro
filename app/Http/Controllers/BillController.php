@@ -9,9 +9,12 @@ class BillController extends Controller
 {
     public function wip(Request $request): \Illuminate\View\View
     {
+        $billQuery = Bill::requestFilterQuery($request);
+
         return view(
             'admin.bills.wip',
             [
+                'bills' => $billQuery['bills']->get(),
                 'dateRange' => $request->get('date_range'),
                 'startDate' => $request->get('date_range')['startDate'] ?? \null,
                 'endDate' => $request->get('date_range')['endDate'] ?? \null,
@@ -26,6 +29,10 @@ class BillController extends Controller
             $request,
             [
                 'request' => $request,
+                'dateRange' => $request->get('date_range'),
+                'startDate' => $request->get('date_range')['startDate'] ?? \null,
+                'endDate' => $request->get('date_range')['endDate'] ?? \null,
+                'dateRangeMode' => $request->get('dateRangeMode', 'current_month'),
             ]
         );
 

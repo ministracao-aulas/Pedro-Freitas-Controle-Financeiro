@@ -1,4 +1,7 @@
 import Alpine from 'alpinejs'
+import flatpickr from "flatpickr";
+import { Portuguese } from "flatpickr/dist/l10n/pt.js"
+// import confirmDatePlugin from "flatpickr/dist/plugins/confirmDate/confirmDate.js" // https://flatpickr.js.org/plugins/
 import _ from 'lodash';
 import axios from 'axios';
 import GlobalObject from './src/GlobalObject';
@@ -11,6 +14,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
 });
 
 window._ = _;
+window.flatpickrPortuguese = Portuguese;
+window.flatpickrPlugins = {
+    // confirmDatePlugin
+};
+window.flatpickr = flatpickr;
 window.onClickOut = onClickOut;
 onClickOut.initOnLoad('dom');
 

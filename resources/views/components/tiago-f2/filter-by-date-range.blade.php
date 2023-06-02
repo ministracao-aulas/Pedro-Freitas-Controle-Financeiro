@@ -6,53 +6,112 @@
 @endphp
 <div class="container-box">
     <div class="row">
-        <div class="col-sm-12 col-lg-4">
+        <div class="col-sm-12">
             <div x-data="filterByDate('{{ $defaultRange }}')">
-                <div class="w-100">
-                    Start date: <span x-text="getStartDate"></span> <br>
-                    End date: <span x-text="getEndDate"></span> <br>
-                </div>
-
                 <div class="form-group">
-                    <label for="range-select">@lang('Date range'):</label>
-                    <select id="range-select" class="form-control" x-model="range" x-on:change="validateDates">
-                        <option value="current_month">@lang('Current month')</option>
-                        <option value="last_7_days">@lang('Last :count days', ['count' => 7])</option>
-                        <option value="last_30_days">@lang('Last :count days', ['count' => 30])</option>
-                        <option value="last_60_days">@lang('Last :count days', ['count' => 60])</option>
-                        <option value="custom">@lang('Custom')</option>
-                    </select>
-                </div>
+                    <div class="dropdown d-grid gap-2">
+                        <div type="button" data-bs-toggle="dropdown" aria-expanded="true" class="show d-block w-100 mb-0">
+                            <select
+                                id="range-select"
+                                class="form-control"
+                                x-model="range"
+                                x-on:change="validateDatesAndCommit"
+                                required>
+                                <option value="" disabled>@lang('Date range')</option>
+                                <option value="current_month">@lang('Current month')</option>
+                                <option value="last_7_days">@lang('Last :count days', ['count' => 7])</option>
+                                <option value="last_30_days">@lang('Last :count days', ['count' => 30])</option>
+                                <option value="last_60_days">@lang('Last :count days', ['count' => 60])</option>
+                                <option value="custom" x-on:click="showDateRangeSelector = true">@lang('Custom')</option>
+                            </select>
+                        </div>
 
-                <div
-                    x-show="range === 'custom'"
-                    class="row">
-                    <div class="col-sm-12 form-group">
-                        <label for="start-date">Start Date:</label>
-                        <input type="date" id="start-date" class="form-control" x-model="startDate" x-on:change="validateDates">
-                    </div>
+                        <div
+                            x-show="showDateRangeSelector"
+                            style="display: none; position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 40px);"
+                            class="dropdown-menu show w-100 mt-0"
+                        >
+                            <div
+                                class="row d-flex align-items-center justify-content-end px-2">
+                                <div class="col-sm-12 modal-header py-1 mb-1">
+                                    <h5 class="modal-title" id="showBillModalLabel">
+                                        @lang('Select a date range')
+                                    </h5>
+                                    <button
+                                        type="button" class="close"
+                                        x-on:click="showDateRangeSelector = false"
+                                        aria-label="Close">
+                                        <span class="p-2 px-3" aria-hidden="true">×</span>
+                                    </button>
+                                </div>
 
-                    <div class="col-sm-12 form-group">
-                        <label for="end-date">End Date:</label>
-                        <input type="date" id="end-date" class="form-control" x-model="endDate" x-on:change="validateDates">
-                    </div>
+                                <div class="col-sm-12 form-group">
+                                    <label for="start-date">@lang('Start date'):</label>
 
-                    <div
-                        x-show="validationMessage"
-                        x-text="validationMessage"
-                        class="col-12 alert alert-danger"
-                        style="display: none"></div>
+                                    <input
+                                        x-ref="startDateInput"
+                                        x-init="flatpickr($refs.startDateInput, {
+                                            locale: flatpickrPortuguese,
+                                            altInput: true,
+                                            altFormat: 'd F Y',
+                                            dateFormat: 'Y-m-d',
+                                            defaultDate: getStartDate(),
+                                            parseDate: true,
+                                            defaultDate: [],
+                                            mode: 'single',
+                                        })"
+                                        type="text"
+                                        x-bind:placeholder="getStartDate()"
+                                        placeholder="@lang('Start date')"
+                                        class="form-control cursor-pointer bg-white"
+                                        id="start-date"
+                                        x-model="startDate"
+                                        x-on:change="validateDates" />
+                                </div>
 
-                    <div
-                        class="col-sm-12 my-2"
-                        x-show="!validationMessage"
-                        style="display: none">
-                        <button
-                            class="btn btn-outline-success float-end d-block d-md-inline w-100"
-                            type="button"
-                            x-on:click="confirmDateRange">
-                            @lang('Confirm')
-                        </button>
+                                <div class="col-sm-12 form-group">
+                                    <label for="end-date">@lang('End date'):</label>
+
+                                    <input
+                                        x-ref="endDateInput"
+                                        x-init="flatpickr($refs.endDateInput, {
+                                            locale: flatpickrPortuguese,
+                                            altInput: true,
+                                            altFormat: 'd F Y',
+                                            dateFormat: 'Y-m-d',
+                                            defaultDate: getEndDate(),
+                                            parseDate: true,
+                                            defaultDate: [],
+                                            mode: 'single',
+                                        })"
+                                        type="text"
+                                        x-bind:placeholder="getEndDate()"
+                                        placeholder="@lang('End date')"
+                                        class="form-control cursor-pointer bg-white"
+                                        id="end-date"
+                                        x-model="endDate"
+                                        x-on:change="validateDates" />
+                                </div>
+
+                                <div
+                                    x-show="validationMessage"
+                                    x-text="validationMessage"
+                                    class="col-12 alert alert-danger"
+                                    style="display: none"></div>
+
+                                <div
+                                    class="col-sm-12 my-2"
+                                    x-show="!validationMessage"
+                                    style="display: none">
+                                    <button
+                                        class="btn btn-outline-success float-end d-block d-md-inline w-100"
+                                        type="button"
+                                        x-on:click="confirmDateRange">
+                                        @lang('Confirm')
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -74,6 +133,7 @@
                                 let range = defaultRange = getValidRange(defaultRange);
                                 let startDate = "{{ $startDate ?: '' }}";
                                 let endDate = "{{ $endDate ?: '' }}";
+                                let showDateRangeSelector = false;
 
                                 function getLastDayOfMonth(year, month) {
                                     return new Date(year, month, (new Date(year, month + 1, 0).getDate()));
@@ -124,6 +184,7 @@
                                         // this.validateDates();
                                     },
                                     range,
+                                    showDateRangeSelector,
                                     startDate,
                                     endDate,
                                     isoDate(...date) {
@@ -223,7 +284,10 @@
                                             return;
                                         }
 
-                                        let dateRangeFilter = { startDate: this.startDate, endDate: this.endDate }
+                                        let dateRangeFilter = {
+                                            startDate: this.startDate,
+                                            endDate: this.endDate
+                                        }
 
                                         if (dateRangeFilter['startDate']) {
                                             searchHelpers.set('date_range[startDate]', dateRangeFilter['startDate']);
@@ -240,6 +304,21 @@
                                         if (!this?.startDate || !this?.endDate) {
                                             return;
                                         }
+                                    },
+                                    validateDatesAndCommit() {
+                                        if (!this.range) {
+                                            this.range = 'current_month';
+                                        }
+
+                                        if (this.range === 'custom') {
+                                            this.showDateRangeSelector = true;
+                                            log('é custom')
+                                            return;
+                                        }
+
+                                        log('não é custom')
+
+                                        this.confirmDateRange()
                                     },
                                     confirmDateRange() {
                                         if (this.validateDates()) {

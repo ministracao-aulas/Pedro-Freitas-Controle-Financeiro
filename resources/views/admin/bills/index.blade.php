@@ -30,7 +30,7 @@
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-body">
-            <div class="table-responsive">
+            <div class="table-responsive" style="min-height: 50vh;">
                 <style>
                     .show-label-on-hover .hover-label {
                         display: none;
@@ -179,23 +179,14 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-2 col-sm-6 pt-2">
+                                    <div class="col-md-4 col-sm-6 pt-2">
                                         <div class="form-group">
-                                            <input
-                                                type="date"
-                                                name="filter_by[date_start]"
-                                                class="form-control"
-                                                value="{{ date('Y-m-01') }}">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-2 col-sm-6 pt-2">
-                                        <div class="form-group">
-                                            <input
-                                                type="date"
-                                                name="filter_by[date_end]"
-                                                class="form-control"
-                                                value="{{ date('Y-m-t') }}">
+                                            <x-tiago-f2.filter-by-date-range
+                                                :dateRange="$dateRange"
+                                                :startDate="$startDate"
+                                                :endDate="$endDate"
+                                                :defaultRange="$dateRangeMode"
+                                            />
                                         </div>
                                     </div>
 
