@@ -29,7 +29,7 @@ class DatabaseBackupFinishedMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Database Backup Finished Mail',
+            subject: $this->success ? 'Cópia do arquivo de backup do banco' : 'Falha ao gerar o backup',
         );
     }
 
