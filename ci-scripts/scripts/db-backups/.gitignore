@@ -1,0 +1,13 @@
+*
+*.sql
+*.gz
+*.zip
+backup-config*.sh
+
+!backup-config.example.sh
+!db-backup.sh
+!.gitignore
+
+!.gitignore
+!backup-banco.example.sh
+!backups
