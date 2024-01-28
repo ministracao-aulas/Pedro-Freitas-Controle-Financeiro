@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Symfony\Component\Process\Process;
 use Illuminate\Support\Arr;
+use App\Events\DatabaseBackupFinished;
 
 class UploadAndSendBackupCommand extends Command
 {
@@ -72,6 +73,7 @@ class UploadAndSendBackupCommand extends Command
 
         if (!$success) {
             $this->error('Houve um erro ao fazer o backup');
+            static::dispatchEvent(false);
 
             return 5;
         }
@@ -88,7 +90,7 @@ class UploadAndSendBackupCommand extends Command
         if ($finalFilePath && is_file($finalFilePath)) {
             $this->info("Arquivo salvo em {$finalFilePath}");
 
-            static::dispatchFile($finalFilePath, $toZipFile);
+            static::dispatchEvent($success, $finalFilePath, $toZipFile);
         }
 
         return 0;
@@ -155,7 +157,7 @@ class UploadAndSendBackupCommand extends Command
         return $backupPath;
     }
 
-    public static function dispatchFile(string $filePath, bool $toZipFile = true): bool
+    public static function dispatchEvent(bool $success, ?string $filePath = null, bool $toZipFile = true): bool
     {
         if (!is_file($filePath)) {
             return false;
@@ -163,18 +165,24 @@ class UploadAndSendBackupCommand extends Command
 
         $zipFilePath = "{$filePath}.zip";
 
-        if ($toZipFile && static::zipFile($filePath, $zipFilePath)) {
+        if ($success && $toZipFile && static::zipFile($filePath, $zipFilePath)) {
             $filePath = $zipFilePath;
         }
 
         // Aqui dispachar job que envia backup para destinos
+        event(
+            new DatabaseBackupFinished(
+                success: $success,
+                filePath: $success ? $filePath : null,
+            )
+        );
 
         return true;
     }
 
     public static function zipFile(string $source, string $target): bool
     {
-        $command = ['zip', '-r', '-FS'];
+        $command = ['zip', '-r', '-j', '-FS'];
         $command[] = $target;
         $command[] = $source;
 
